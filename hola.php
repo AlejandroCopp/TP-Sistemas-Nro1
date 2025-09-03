@@ -1,3 +1,13 @@
 <?php
-echo "no deberia indexar";
-?>
+if($_SERVER['request_method'] == 'GET'){
+
+// codigo
+
+
+
+
+
+
+
+// 
+};

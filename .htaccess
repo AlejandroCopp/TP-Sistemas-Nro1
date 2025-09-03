@@ -1,35 +1,16 @@
 RewriteEngine On
 
-# 🔒 Bloquear acceso a cualquier archivo .php que no sea verbo HTTP
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s.*\.php\sHTTP [NC]
-RewriteCond %{REQUEST_URI} !/(get|post|put|delete|patch|options|head)\.php$ [NC]
-RewriteRule .* - [F]
+# ✅ Permitir solo el index.php en la raíz
+<FilesMatch "^index\.php$">
+    Require all granted
+</FilesMatch>
 
-# 🔐 Restringir cada archivo al método HTTP correspondiente
-RewriteCond %{REQUEST_URI} /get\.php$ [NC]
-RewriteCond %{REQUEST_METHOD} !GET
-RewriteRule ^.*$ - [F]
+# ❌ Bloquear cualquier otro index.php en subcarpetas
+<FilesMatch "^.*/index\.php$">
+    Require all denied
+</FilesMatch>
 
-RewriteCond %{REQUEST_URI} /post\.php$ [NC]
-RewriteCond %{REQUEST_METHOD} !POST
-RewriteRule ^.*$ - [F]
-
-RewriteCond %{REQUEST_URI} /put\.php$ [NC]
-RewriteCond %{REQUEST_METHOD} !PUT
-RewriteRule ^.*$ - [F]
-
-RewriteCond %{REQUEST_URI} /delete\.php$ [NC]
-RewriteCond %{REQUEST_METHOD} !DELETE
-RewriteRule ^.*$ - [F]
-
-RewriteCond %{REQUEST_URI} /patch\.php$ [NC]
-RewriteCond %{REQUEST_METHOD} !PATCH
-RewriteRule ^.*$ - [F]
-
-RewriteCond %{REQUEST_URI} /options\.php$ [NC]
-RewriteCond %{REQUEST_METHOD} !OPTIONS
-RewriteRule ^.*$ - [F]
-
-RewriteCond %{REQUEST_URI} /head\.php$ [NC]
-RewriteCond %{REQUEST_METHOD} !HEAD
-RewriteRule ^.*$ - [F]
+# 🔁 Redirigir rutas limpias al index.php raíz
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php [L]
