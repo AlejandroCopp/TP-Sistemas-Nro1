@@ -10,7 +10,7 @@ require_once __DIR__ . '/lib/router.php';
 
 // 2. Definir el "base path" de tu proyecto.
 // Esto es necesario si tu proyecto no está en la raíz de tu dominio (ej. http://localhost/)
-// En este caso, está en http://localhost/php_code/TP-Sistemas-Nro1/
+// En este caso, está en http://localhost/
 $basePath = '';
 
 // 3. Crear una instancia del Router, pasándole el base path.
@@ -22,15 +22,23 @@ $router = new Router($basePath);
 
 // --- RUTAS DEL CRUD ---
 
+// GET /  (landing page)
+// Se accedería desde la URL: http://localhost/
+$router->get('/', function() {
+    require_once __DIR__ . '/views/Home.php';
+    Home();
+    // Aquí iría tu lógica para conectar a la base de datos, obtener los usuarios y mostrarlos.
+});
+
 // GET /usuarios  (Read - Leer todos los usuarios)
-// Se accedería desde la URL: http://localhost/php_code/TP-Sistemas-Nro1/usuarios
+// Se accedería desde la URL: http://localhost/usuarios
 $router->get('/usuarios', function() {
     echo "<h1>Lista de todos los usuarios</h1>";
     // Aquí iría tu lógica para conectar a la base de datos, obtener los usuarios y mostrarlos.
 });
 
 // GET /usuarios/[id]  (Read - Leer un usuario específico)
-// Se accedería desde URLs como: http://localhost/php_code/TP-Sistemas-Nro1/usuarios/123
+// Se accedería desde URLs como: http://localhost/usuarios/123
 $router->get('/usuarios/[id]', function($id) {
     // htmlspecialchars() se usa para prevenir ataques XSS al mostrar datos que vienen de la URL.
     echo "<h1>Mostrando perfil del usuario con ID: " . htmlspecialchars($id) . "</h1>";
