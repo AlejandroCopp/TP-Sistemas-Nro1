@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 // 1. Incluir el archivo del Router
 // __DIR__ es una constante de PHP que devuelve la ruta del directorio donde se encuentra este archivo (index.php).
+require_once __DIR__ . '/views/Layout.php';
 require_once __DIR__ . '/lib/router.php';
 
 // 2. Definir el "base path" de tu proyecto.
@@ -23,23 +24,31 @@ $router = new Router($basePath);
 // --- RUTAS DEL CRUD ---
 
 // GET /  (landing page)
-// Se accedería desde la URL: http://localhost/
 $router->get('/', function() {
     require_once __DIR__ . '/views/Home.php';
-    Home();
-    // Aquí iría tu lógica para conectar a la base de datos, obtener los usuarios y mostrarlos.
+    Layout(Home());
 });
 
-// GET /usuarios  (Read - Leer todos los usuarios)
-// Se accedería desde la URL: http://localhost/usuarios
-$router->get('/usuarios', function() {
-    echo "<h1>Lista de todos los usuarios</h1>";
-    // Aquí iría tu lógica para conectar a la base de datos, obtener los usuarios y mostrarlos.
+// GET /login 
+$router->get('/login', function() {
+    require_once __DIR__ . '/views/Login.php';
+    Layout(Login());
+});
+
+// GET /registrarse
+$router->get('/registrarse', function() {
+    require_once __DIR__ . '/views/Registrarse.php';
+    Layout(Registrarse());
+});
+
+// GET /admin/usuarios  (Read - Leer todos los usuarios)
+$router->get('/admin/usuarios', function() {
+    require_once __DIR__ . '/views/GestionarUsuarios.php';
+    Layout(GestionarUsuarios());
 });
 
 // GET /usuarios/[id]  (Read - Leer un usuario específico)
-// Se accedería desde URLs como: http://localhost/usuarios/123
-$router->get('/usuarios/[id]', function($id) {
+$router->get('/admin/usuarios/[id]', function($id) {
     // htmlspecialchars() se usa para prevenir ataques XSS al mostrar datos que vienen de la URL.
     echo "<h1>Mostrando perfil del usuario con ID: " . htmlspecialchars($id) . "</h1>";
     // Aquí iría tu lógica para buscar en la BD un usuario con el $id proporcionado.
@@ -47,7 +56,7 @@ $router->get('/usuarios/[id]', function($id) {
 
 // POST /usuarios  (Create - Crear un nuevo usuario)
 // Esta ruta no se accede desde el navegador directamente, sino a través de un formulario HTML o una petición API.
-$router->post('/usuarios', function() {
+$router->post('/admin/usuarios', function() {
     // La información del nuevo usuario normalmente vendría en la variable superglobal $_POST.
     // Ejemplo: $nombre = $_POST['nombre'];
     echo "<h1>Creando un nuevo usuario</h1>";
@@ -57,7 +66,7 @@ $router->post('/usuarios', function() {
 
 // PATCH /usuarios/[id]  (Update - Actualizar un usuario existente)
 // También se accedería por formulario o API. PATCH se usa para actualizaciones parciales.
-$router->patch('/usuarios/[id]', function($id) {
+$router->patch('/admin/usuarios/[id]', function($id) {
     // Los nuevos datos vendrían en el cuerpo de la petición.
     echo "<h1>Actualizando usuario con ID: " . htmlspecialchars($id) . "</h1>";
     // Aquí iría la lógica para buscar el usuario por $id y actualizarlo con los datos recibidos.
@@ -65,7 +74,7 @@ $router->patch('/usuarios/[id]', function($id) {
 
 // DELETE /usuarios/[id]  (Delete - Borrar un usuario)
 // También se accedería por formulario o API.
-$router->delete('/usuarios/[id]', function($id) {
+$router->delete('/admin/usuarios/[id]', function($id) {
     echo "<h1>Borrando usuario con ID: " . htmlspecialchars($id) . "</h1>";
     // Aquí iría la lógica para buscar y eliminar el usuario con ese $id de la base de datos.
 });
