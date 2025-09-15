@@ -424,24 +424,5 @@ function Home(){
       </footer>
     <!-- ========== END FOOTER ========== -->
 
-    <!-- Preline UI Script -->
-    <script>
-        // This is a workaround for Preline UI in environments like CodePen or other sandboxes
-        // In a real project, you would just include the script tag.
-        setTimeout(() => {
-            if (window.HSStaticMethods) {
-                window.HSStaticMethods.autoInit();
-            }
-        }, 100);
-    </script>
-</body>
-</html>
 
-
-
-<script type="module">
-import preline from 'https://cdn.jsdelivr.net/npm/preline@3.2.3/+esm'
-</script>
-</body>
-</html>
 <?php ;}?>

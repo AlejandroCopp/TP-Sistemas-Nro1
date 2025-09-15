@@ -31,7 +31,7 @@ $router->get('/', function() {
 
 // GET /login 
 $router->get('/login', function() {
-    require_once __DIR__ . '/views/Login.php';
+    require_once __DIR__ .'/views/Login.php';
     Layout(Login());
 });
 
