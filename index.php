@@ -36,9 +36,9 @@ $router->get('/login', function() {
 });
 
 // GET /registrarse
-$router->get('/registrarse', function() {
-    require_once __DIR__ . '/views/Registrarse.php';
-    Layout(Registrarse());
+$router->get('/register', function() {
+    require_once __DIR__ . '/views/register.php';
+    Layout(register());
 });
 
 // GET /admin/usuarios  (Read - Leer todos los usuarios)
