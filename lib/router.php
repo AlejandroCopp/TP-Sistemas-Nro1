@@ -55,14 +55,14 @@ class Router {
     }
 
     /**
-     * Registra una nueva ruta para peticiones de tipo PATCH.
-     * PATCH se usa para actualizar parcialmente datos que ya existen (ej: cambiar solo el email de un usuario).
+     * Registra una nueva ruta para peticiones de tipo PUT.
+     * PUT se usa para actualizar parcialmente datos que ya existen (ej: cambiar solo el email de un usuario).
      *
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
-    public function patch($path, $handler) {
-        $this->addRoute('PATCH', $path, $handler);
+    public function PUT($path, $handler) {
+        $this->addRoute('PUT', $path, $handler);
     }
 
     /**
