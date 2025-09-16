@@ -56,9 +56,10 @@ $router->get('/admin/usuarios/[id]', function($id) {
 
 // POST /usuarios  (Create - Crear un nuevo usuario)
 // Esta ruta no se accede desde el navegador directamente, sino a través de un formulario HTML o una petición API.
-$router->post('/admin/usuarios', function() {
+$router->post('/api/admin/usuarios', function() {
     // La información del nuevo usuario normalmente vendría en la variable superglobal $_POST.
     // Ejemplo: $nombre = $_POST['nombre'];
+    
     echo "<h1>Creando un nuevo usuario</h1>";
     // Aquí iría la lógica para validar los datos de $_POST y guardarlos en la base de datos.
     http_response_code(201); // 201 Created es un código de estado apropiado.

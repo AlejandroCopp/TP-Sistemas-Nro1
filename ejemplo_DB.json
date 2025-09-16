@@ -1,0 +1,53 @@
+
+[
+  {
+    "id": 1,
+    "name": "Juan Pérez",
+    "email": "juan.perez@example.com",
+    "password_hash": "hashed_password_1",
+    "role": "organizador",
+    "status": "activo",
+    "position": "delantero",
+    "created_at": "2025-08-01T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "María García",
+    "email": "maria.garcia@example.com",
+    "password_hash": "hashed_password_2",
+    "role": "jugador",
+    "status": "activo",
+    "position": "defensa",
+    "created_at": "2025-08-01T11:00:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Pedro López",
+    "email": "pedro.lopez@example.com",
+    "password_hash": "hashed_password_3",
+    "role": "jugador",
+    "status": "activo",
+    "position": "mediocampista",
+    "created_at": "2025-08-01T12:00:00Z"
+  },
+  {
+    "id": 4,
+    "name": "Ana Rodríguez",
+    "email": "ana.rodriguez@example.com",
+    "password_hash": "hashed_password_4",
+    "role": "espectador",
+    "status": "activo",
+    "position": "n/a",
+    "created_at": "2025-08-01T13:00:00Z"
+  },
+  {
+    "id": 5,
+    "name": "Carlos Sánchez",
+    "email": "carlos.sanchez@example.com",
+    "password_hash": "hashed_password_5",
+    "role": "administrador",
+    "status": "activo",
+    "position": "n/a",
+    "created_at": "2025-08-01T14:00:00Z"
+  }
+]
