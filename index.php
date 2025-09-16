@@ -65,9 +65,9 @@ $router->post('/api/admin/usuarios', function() {
     http_response_code(201); // 201 Created es un código de estado apropiado.
 });
 
-// PATCH /usuarios/[id]  (Update - Actualizar un usuario existente)
-// También se accedería por formulario o API. PATCH se usa para actualizaciones parciales.
-$router->patch('/admin/usuarios/[id]', function($id) {
+// PUT /usuarios/[id]  (Update - Actualizar un usuario existente)
+// También se accedería por formulario o API. PUT se usa para actualizaciones parciales.
+$router->put('/admin/usuarios/[id]', function($id) {
     // Los nuevos datos vendrían en el cuerpo de la petición.
     echo "<h1>Actualizando usuario con ID: " . htmlspecialchars($id) . "</h1>";
     // Aquí iría la lógica para buscar el usuario por $id y actualizarlo con los datos recibidos.
