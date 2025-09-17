@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 // 1. Incluir el archivo del Router
 // __DIR__ es una constante de PHP que devuelve la ruta del directorio donde se encuentra este archivo (index.php).
 require_once __DIR__ . '/views/Layout.php';
-require_once __DIR__ . '/lib/router.php';
+require_once __DIR__ . '/lib/Router.php';
 
 // 2. Definir el "base path" de tu proyecto.
 // Esto es necesario si tu proyecto no está en la raíz de tu dominio (ej. http://localhost/)
