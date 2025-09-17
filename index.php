@@ -54,11 +54,7 @@ $router->get('/admin/usuarios', function() {
 });
 
 // GET /usuarios/[id]  (Read - Leer un usuario específico)
-$router->get('/admin/usuarios/[id]', function($id) {
-    // htmlspecialchars() se usa para prevenir ataques XSS al mostrar datos que vienen de la URL.
-    echo "<h1>Mostrando perfil del usuario con ID: " . htmlspecialchars($id) . "</h1>";
-    // Aquí iría tu lógica para buscar en la BD un usuario con el $id proporcionado.
-});
+$router->get('/api/admin/usuarios/[id]', 'AuthController@test');
 
 // POST /usuarios  (Create - Crear un nuevo usuario)
 // Esta ruta no se accede desde el navegador directamente, sino a través de un formulario HTML o una petición API.
