@@ -1,7 +1,7 @@
 <?php
 
-require_once 'UserModel.php';
-require_once 'Database.php';
+require_once 'models/UserModel.php';
+require_once 'db/Database.php';
 
 class AuthController {
     private $userModel;
@@ -9,6 +9,15 @@ class AuthController {
     public function __construct() {
         $database = new Database();
         $this->userModel = new UserModel($database->getConnection());
+    }
+
+    public function test(){
+        echo json_encode([
+            "test" => 1234,
+            "a" => "asd"
+        ]);
+
+        http_response_code(201);
     }
 
     public function register($data) {
