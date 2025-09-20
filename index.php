@@ -24,7 +24,7 @@ $router = new Router($basePath);
 // --- RUTAS DEL CRUD ---
 
  // GET /Pagina de Ale
- $router->get('/Ale', function() {
+ $router->get("$basePath Ale", function() {
     require_once __DIR__ . '/views/Ale.php';
     Layout(Ale());
 });
