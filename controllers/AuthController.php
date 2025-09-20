@@ -20,11 +20,10 @@ class AuthController {
         http_response_code(201);
     }
 
-    public function register($data) {
-        $name = $data['name'];
-        $email = $data['email'];
-        $password = $data['password'];
-        $position = isset($data['position']) ? $data['position'] : null;
+    public function register() {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
         if ($this->userModel->getUserByEmail($email)) {
             http_response_code(409);
@@ -32,7 +31,7 @@ class AuthController {
             return;
         }
 
-        if ($this->userModel->createUser($name, $email, $password, 'jugador', $position)) {
+        if ($this->userModel->createUser($name, $email, $password, 'jugador')) {
             http_response_code(201);
             echo json_encode(["message" => "Usuario registrado con éxito."]);
         } else {
@@ -41,9 +40,9 @@ class AuthController {
         }
     }
 
-    public function login($data) {
-        $email = $data['email'];
-        $password = $data['password'];
+    public function login() { // TODO: Test pending
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
         $user = $this->userModel->getUserByEmail($email);
 
@@ -56,8 +55,5 @@ class AuthController {
             echo json_encode(["message" => "Credenciales inválidas."]);
         }
     }
-
-    private function generateToken($userId) {
-        return bin2hex(random_bytes(32)); 
-    }
+    
 }
