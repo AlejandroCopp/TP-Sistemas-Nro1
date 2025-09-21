@@ -3,6 +3,8 @@
 require_once 'models/UserModel.php';
 require_once 'db/Database.php';
 
+# hay correcciones, chequear los comentarios que empiezan por los simbolos #!
+
 class AuthController {
     private $userModel;
 
@@ -25,6 +27,8 @@ class AuthController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+        #! falta hashear la password
+
         if ($this->userModel->getUserByEmail($email)) {
             http_response_code(409);
             echo json_encode(["message" => "El usuario con este correo electrónico ya existe."]);
@@ -44,9 +48,12 @@ class AuthController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $user = $this->userModel->getUserByEmail($email);
+        #! falta sanitizar datos ingresados por el usuario
 
-        if ($user && password_verify($password, $user['password_hash'])) {
+        $user = $this->userModel->getUserByEmail($email, "password_hash");
+        var_dump($user);
+        if ($user && password_verify($password, $user['password_hash'])) { 
+            # lo reenvio al home, el home tiene que validar que la sesion esté iniciada
             $token = $this->generateToken($user['id']);
             http_response_code(200);
             echo json_encode(["token" => $token, "user_id" => $user['id']]);

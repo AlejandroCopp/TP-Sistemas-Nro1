@@ -17,7 +17,7 @@ class AdminController {
 
     public function resetUserPassword() {
         $userId = $_POST['userId'];
-        $new_password = $this->genPassowrd();
+        $new_password = $this->genPassword();
 
         if ($this->userModel->changeUserPassword($userId, $new_password)) {
             echo json_encode(["new_passwd" => $new_password]);
@@ -63,14 +63,13 @@ class AdminController {
         }
     }
     
-    function genPassowrd($len = 14) {
+    function genPassword($len = 14) {
         $charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+';
         $password = '';
         for ($i = 0; $i < $len; $i++) {
             $password .= $charset[random_int(0, strlen($charset) - 1)];
         }
     return $password;
-}
-
+    }
     
 }
