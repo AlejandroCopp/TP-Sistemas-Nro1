@@ -14,6 +14,7 @@ class UserModel {
         return $stmt->fetchall(PDO::FETCH_ASSOC);
     }
 
+    
     public function getUserById($id) {
         $sql = "SELECT id, name, email, role FROM users WHERE id = :id";
         $stmt = $this->db->prepare($sql);
@@ -22,7 +23,8 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getUserByEmail($email, $data="id, name, email, role") {
+    # trae los datos de los usuarios segun su email
+    public function getUserByEmail($email, $data="id, name, email, password_hash, role") {
         $sql = "SELECT $data FROM users WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email);

@@ -24,15 +24,15 @@ $router = new Router($basePath);
 // --- RUTAS DEL CRUD ---
 
  // GET /Pagina de Ale
- $router->get("$basePath Ale", function() {
+ $router->get("/ale", function() {
     require_once __DIR__ . '/views/Ale.php';
     Layout(Ale());
 });
 
 // GET /  (landing page)
 $router->get('/', function() {
-    require_once __DIR__ . '/views/Home.php';
-    Layout(Home());
+    require_once __DIR__ . '/views/Landing.php';
+    Layout(Landing());
 });
 
 // GET /login 

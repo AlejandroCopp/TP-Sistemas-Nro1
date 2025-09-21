@@ -27,6 +27,7 @@ class AuthController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+        var_dump($_POST);
         #! falta hashear la password
 
         if ($this->userModel->getUserByEmail($email)) {
@@ -38,6 +39,9 @@ class AuthController {
         if ($this->userModel->createUser($name, $email, $password, 'jugador')) {
             http_response_code(201);
             echo json_encode(["message" => "Usuario registrado con éxito."]);
+            # mostrar cartelito que se ha creado la cuenta con exito
+            # redirigir al usuario al login
+
         } else {
             http_response_code(500);
             echo json_encode(["message" => "Error al registrar el usuario."]);
@@ -53,10 +57,14 @@ class AuthController {
         $user = $this->userModel->getUserByEmail($email, "password_hash");
         var_dump($user);
         if ($user && password_verify($password, $user['password_hash'])) { 
+            
             # lo reenvio al home, el home tiene que validar que la sesion esté iniciada
+            header("location:/home");
             $token = $this->generateToken($user['id']);
-            http_response_code(200);
-            echo json_encode(["token" => $token, "user_id" => $user['id']]);
+
+            //# Responde como API
+            // http_response_code(200);
+            // echo json_encode(["token" => $token, "user_id" => $user['id']]);
         } else {
             http_response_code(401);
             echo json_encode(["message" => "Credenciales inválidas."]);

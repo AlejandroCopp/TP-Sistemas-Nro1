@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "2f3fd46b-3c75-46f8-bded-47da8d2985ab",
+		"name": "TP-Sistemas-Nro1 API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33965354",
+		"_collection_link": "https://lively-eclipse-324472.postman.co/workspace/5f59e084-805b-4c66-8e21-54f21b8933ae/collection/33965354-2f3fd46b-3c75-46f8-bded-47da8d2985ab?action=share&source=collection_link&creator=33965354"
+	},
+	"item": [
+		{
+			"name": "Auth: Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "test@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/auth/login",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Logs a user in and returns a token."
+			},
+			"response": []
+		},
+		{
+			"name": "Auth: Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Test User",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "test@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/auth/register",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				},
+				"description": "Registers a new user."
+			},
+			"response": []
+		},
+		{
+			"name": "Admin: Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/admin/users",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"users"
+					]
+				},
+				"description": "Retrieves all users."
+			},
+			"response": []
+		},
+		{
+			"name": "Admin: Change User Name",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "userName",
+							"value": "NewUserName",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/admin/changeUserName",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"changeUserName"
+					]
+				},
+				"description": "Changes a user's name."
+			},
+			"response": []
+		},
+		{
+			"name": "Admin: Change User Email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "new.email@example.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/admin/changeUserEmail",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"changeUserEmail"
+					]
+				},
+				"description": "Changes a user's email."
+			},
+			"response": []
+		},
+		{
+			"name": "Admin: Change User Role",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "userRole",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/admin/changeUserRole",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"changeUserRole"
+					]
+				},
+				"description": "Changes a user's role."
+			},
+			"response": []
+		},
+		{
+			"name": "Admin: Reset User Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userId",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/admin/resetUserPassword",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"resetUserPassword"
+					]
+				},
+				"description": "Resets a user's password and returns the new one."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
