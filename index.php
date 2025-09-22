@@ -21,47 +21,23 @@ $router = new Router($basePath);
 // Para este ejemplo, cada ruta utiliza una función anónima (closure) como manejador.
 // En una aplicación real, aquí podrías usar un controlador, por ejemplo: 'UserController@index'.
 
-// --- RUTAS DEL CRUD ---
-
- // GET /Pagina de Ale
- $router->get("/ale", function() {
-    require_once __DIR__ . '/views/Ale.php';
-    Layout(Ale());
-});
-
-// GET /  (landing page)
-$router->get('/', function() {
-    require_once __DIR__ . '/views/Landing.php';
-    Layout(Landing());
-});
-
-// GET /login 
-$router->get('/login', function() {
-    require_once __DIR__ .'/views/Login.php';
-    Layout(Login());
-});
-
-// GET /registrarse
-$router->get('/register', function() {
-    require_once __DIR__ . '/views/register.php';
-    Layout(register());
-});
-
-// GET /admin/usuarios  (Read - Leer todos los usuarios)
-$router->get('/admin/usuarios', function() {
-    require_once __DIR__ . '/views/GestionarUsuarios.php';
-    Layout(GestionarUsuarios());
-});
-
-
+// Auth System
+$router->get('/login', 'AuthController@LoginPage' );
+$router->get('/register', 'AuthController@LoginPage');
 $router->post('/api/auth/login', 'AuthController@login');
 $router->post('/api/auth/register', 'AuthController@register');
+$router->post('/api/auth/logout', 'AuthController@logout');
 
+// Admin System
+$router->get('/admin/usuarios', 'AdminController@AdminPage');
 $router->get('/api/admin/users', 'AdminController@getAllUsers');
 $router->post('/api/admin/changeUserName', 'AdminController@changeUserName');
 $router->post('/api/admin/changeUserEmail', 'AdminController@changeUserEmail');
 $router->post('/api/admin/changeUserRole', 'AdminController@changeUserRole');
 $router->post('/api/admin/resetUserPassword', 'AdminController@resetUserPassword');
+
+// Application
+$router->get('/', 'AppController@MainPage');
 
 
 // 5. Ejecutar el router.

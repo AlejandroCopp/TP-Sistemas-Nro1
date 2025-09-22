@@ -13,13 +13,14 @@ class AuthController {
         $this->userModel = new UserModel($database->getConnection());
     }
 
-    public function test(){
-        echo json_encode([
-            "test" => 1234,
-            "a" => "asd"
-        ]);
+    public function LoginPage(){
+        require_once __DIR__ .'/views/Login.php';
+        Layout(Login());
+    }
 
-        http_response_code(201);
+    public function RegisterPage(){
+        require_once __DIR__ . '/views/register.php';
+        Layout(register());
     }
 
     public function register() {
@@ -27,7 +28,6 @@ class AuthController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        var_dump($_POST);
         #! falta hashear la password
 
         if ($this->userModel->getUserByEmail($email)) {
@@ -54,13 +54,18 @@ class AuthController {
 
         #! falta sanitizar datos ingresados por el usuario
 
-        $user = $this->userModel->getUserByEmail($email, "password_hash");
-        var_dump($user);
+        $user = $this->userModel->getUserByEmail($email, "id, name, role, password_hash");
+
         if ($user && password_verify($password, $user['password_hash'])) { 
             
+            session_start();
+
+            $_SESSION["user_id"] = $user["id"];
+            $_SESSION["user_name"] = $user["name"];
+            $_SESSION["user_role"] = $user["role"];
             # lo reenvio al home, el home tiene que validar que la sesion esté iniciada
             header("location:/home");
-            $token = $this->generateToken($user['id']);
+            //$token = $this->generateToken($user['id']);
 
             //# Responde como API
             // http_response_code(200);
@@ -69,6 +74,13 @@ class AuthController {
             http_response_code(401);
             echo json_encode(["message" => "Credenciales inválidas."]);
         }
+    }
+
+    public function logout(){
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location:/");
     }
     
 }

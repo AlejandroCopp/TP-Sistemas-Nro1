@@ -11,6 +11,11 @@ class AdminController {
         $this->userModel = new UserModel($database->getConnection());
     }
 
+    public function AdminPage(){
+        require_once __DIR__ . '/views/GestionarUsuarios.php';
+        Layout(GestionarUsuarios());
+    }
+
     public function getAllUsers() {
         echo json_encode(["users" => $this->userModel->getAllUsers()]);
     }

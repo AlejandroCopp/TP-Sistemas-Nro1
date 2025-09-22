@@ -161,7 +161,6 @@ class Router {
                 array_shift($matches);
          
                 $handler = $route['handler'];
-
                 // Si el manejador es una función, la llama directamente.
                 if (is_callable($handler)) {
                     call_user_func_array($handler, $matches);
