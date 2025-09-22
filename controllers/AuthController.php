@@ -14,12 +14,12 @@ class AuthController {
     }
 
     public function LoginPage(){
-        require_once __DIR__ .'/views/Login.php';
+        require_once 'views/Login.php';
         Layout(Login());
     }
 
     public function RegisterPage(){
-        require_once __DIR__ . '/views/register.php';
+        require_once 'views/register.php';
         Layout(register());
     }
 
@@ -39,12 +39,14 @@ class AuthController {
         if ($this->userModel->createUser($name, $email, $password, 'jugador')) {
             http_response_code(201);
             echo json_encode(["message" => "Usuario registrado con éxito."]);
+            header("location:/login");
             # mostrar cartelito que se ha creado la cuenta con exito
             # redirigir al usuario al login
-
+            
         } else {
             http_response_code(500);
             echo json_encode(["message" => "Error al registrar el usuario."]);
+            header("location:/register");
         }
     }
 
@@ -63,8 +65,8 @@ class AuthController {
             $_SESSION["user_id"] = $user["id"];
             $_SESSION["user_name"] = $user["name"];
             $_SESSION["user_role"] = $user["role"];
-            # lo reenvio al home, el home tiene que validar que la sesion esté iniciada
-            header("location:/home");
+            # lo reenvio al, el home tiene que validar que la sesion esté iniciada
+            header("location:/");
             //$token = $this->generateToken($user['id']);
 
             //# Responde como API

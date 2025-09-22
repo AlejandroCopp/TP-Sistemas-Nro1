@@ -23,7 +23,7 @@ $router = new Router($basePath);
 
 // Auth System
 $router->get('/login', 'AuthController@LoginPage' );
-$router->get('/register', 'AuthController@LoginPage');
+$router->get('/register', 'AuthController@RegisterPage');
 $router->post('/api/auth/login', 'AuthController@login');
 $router->post('/api/auth/register', 'AuthController@register');
 $router->post('/api/auth/logout', 'AuthController@logout');
