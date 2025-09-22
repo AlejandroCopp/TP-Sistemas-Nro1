@@ -1,13 +1,15 @@
 <?php
-function Home($usuario){ 
-  session_start();
-  $_SESSION["name"]=$usuario;
-  if(isset($_SESSION["name"])){
+function Home() { 
+  
   ?>
-    <h1>Home, Hola <?$_SESSION["name"]?></h1>
-  <? }else{
-    header("/login"); 
-  }?>
+    <h1>Home, Hola 
+      <?php echo $_SESSION["user_id"];?>
+      <?php echo $_SESSION["user_name"];?>
+      <?php echo $_SESSION["user_role"];?>
+    </h1>
+    <form action="/api/auth/logout" method="post">
+      <input type="submit" value="cerrar sesion">
+    </form>
 
 
-<?php }?>
+<?php } ?>
