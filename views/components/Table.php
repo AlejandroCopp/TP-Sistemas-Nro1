@@ -51,26 +51,30 @@ function Table($headers, $rows = []){
                         <!-- Titulos -->
                         <thead class="bg-gray-50 dark:bg-neutral-800">
                             <tr>
-                                <th scope="col" class="ps-6 py-3 text-start">
-                                    <label for="hs-at-with-checkboxes-main" class="flex">
-                                        <input type="checkbox"
-                                            class="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                            id="hs-at-with-checkboxes-main">
-                                        <span class="sr-only">Checkbox</span>
-                                    </label>
+
+                                <th class="size-px whitespace-nowrap">
+                                    <div class="ps-6 py-3">
+                                        <label for="hs-at-with-checkboxes-1" class="flex">
+                                            <input type="checkbox"
+                                                class="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                                id="hs-at-with-checkboxes-1">
+                                            <span class="sr-only">Checkbox</span>
+                                        </label>
+                                    </div>
                                 </th>
 
                                 <?php
-                      foreach ($headers as $position => $title) {
-                        echo '<th scope="col" class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3 text-start">
-                        <div class="flex items-center gap-x-2">
-                            <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">'
-                            . $title .
-                            '</span>
-                        </div>';
-                        
-                      } 
-                      ?>
+                                foreach ($headers as $position => $title) {
+                                  echo '<th scope="col" class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3 text-start">
+                                  <div class="flex items-center gap-x-2">
+                                      <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">'
+                                      . $title .
+                                      '</span>
+                                  </div> </th>'
+                                 ;
+                                  
+                                } 
+                                ?>
                             </tr>
                         </thead>
                         <!-- Fin Titulos -->
@@ -78,37 +82,11 @@ function Table($headers, $rows = []){
                         <!-- body -->
                         <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
 
-
-
-
-                            <?php
-                  foreach ($rows as $postition => $rowContent): ?>
-
-                            <tr>
-
-                                <td>
-                                    <h1>hola</h1>
-
-                                </td>
-
-
-                                <td class="size-px whitespace-nowrap">
-                                    <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
-                                        <div class="flex items-center gap-x-3">
-                                            <div class="grow">
-                                                <span
-                                                    class="block text-sm font-semibold text-gray-800 dark:text-neutral-200">
-                                                    <?= Row ($rowContent) ?>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tr>
-
-
-                            <?php endforeach; ?>
+                            <?php 
+                            foreach ($rows as $position => $rowContent) {
+                              
+                              echo Row ($rowContent) ;
+                            }?>
 
                         </tbody>
                         <!-- End body -->
