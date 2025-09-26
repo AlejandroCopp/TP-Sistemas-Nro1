@@ -32,6 +32,19 @@ class AdminController {
         }
     }
 
+    // public function actualizarUsuario(){
+    //     $ = $_POST[""];
+    //     $ = $_POST[""];
+    //     $ = $_POST[""];
+    //     $ = $_POST[""];
+    //     $ = $_POST[""];
+
+    // valida que los datos existan
+    // el user model deberia tener un metodo llamado cambiar campo donde reciba un objeto y utilice el nombre de las 
+    // propiedades para identificar el campo y luego el valor para identificar que valor se quiere cambiar, 
+    // luego armar una sentencia sql con los campos que se cambiaron e impactar los datos en la base de datos
+    // }
+
     public function changeUserName() {
         $userId = $_POST['userId'];
         $userName = $_POST['userName'];
