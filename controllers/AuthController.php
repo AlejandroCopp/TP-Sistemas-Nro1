@@ -5,7 +5,7 @@ require_once 'db/Database.php';
 
 # hay correcciones, chequear los comentarios que empiezan por los simbolos #!
 
-class AuthController {
+abstract class AuthController {
     private $userModel;
 
     public function __construct() {
@@ -13,14 +13,29 @@ class AuthController {
         $this->userModel = new UserModel($database->getConnection());
     }
 
+    public function checkRole(){
+        return 0;
+    }
+
     public function LoginPage(){
-        require_once 'views/Login.php';
-        Layout(Login());
+        session_start();
+        if(isset($_SESSION["user_id"])){
+            header("location:/");
+        }else{
+            require_once 'views/Login.php';
+            Layout(Login());
+        }
     }
 
     public function RegisterPage(){
-        require_once 'views/register.php';
-        Layout(register());
+        session_start();
+        if(isset($_SESSION["user_id"])){
+            header("location:/");
+        }else{
+            require_once 'views/register.php';
+            Layout(register());
+        }
+
     }
 
     public function register() {
@@ -37,9 +52,12 @@ class AuthController {
         }
 
         if ($this->userModel->createUser($name, $email, $password, 'jugador')) {
-            http_response_code(201);
-            echo json_encode(["message" => "Usuario registrado con éxito."]);
+
+            session_start();
+
             header("location:/login");
+            // http_response_code(201);
+            // echo json_encode(["message" => "Usuario registrado con éxito."]);
             # mostrar cartelito que se ha creado la cuenta con exito
             # redirigir al usuario al login
             

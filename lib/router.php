@@ -39,8 +39,8 @@ class Router {
      * @param string $path La dirección URL que se quiere registrar. Puede contener partes dinámicas como /usuarios/[id].
      * @param mixed $handler La acción a realizar. Puede ser una función directa o un texto como 'NombreControlador@nombreMetodo'.
      */
-    public function get($path, $handler) {
-        $this->addRoute('GET', $path, $handler);
+    public function get(...$args) {
+        $this->addRoute('GET', ...$args);
     }
 
     /**
@@ -72,8 +72,9 @@ class Router {
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
-    public function delete($path, $handler) {
-        $this->addRoute('DELETE', $path, $handler);
+    public function delete(...$args) {
+        
+        $this->addRoute('DELETE', ...$args);
     }
 
     /**
@@ -85,7 +86,22 @@ class Router {
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
+
+     # TODO: terminar checkRole
+    private function checkRole($role_needed){
+        $is_allowed = false;
+
+        if(isset($_SESSION)) {
+            $is_allowed = $_SESSION["role"] === $role_needed;
+        }  
+
+        if( !$is_allowed ){
+            return ?><script> Alert()</script><?php
+        }
+    }
+    
     private function addRoute($method, $path, $handler) {
+        // $h = $this->checkRole($role_needed);
         // Este método convierte de forma segura una ruta con partes dinámicas y estáticas en una expresión regular.
         // Por ejemplo, la ruta '/user/(test)/[id]' se convertirá en una regex que busca literalmente '/user/(test)/'
         // y luego captura cualquier caracter hasta la siguiente barra para el [id].
@@ -94,6 +110,10 @@ class Router {
         // Usamos preg_split con PREG_SPLIT_DELIM_CAPTURE para conservar tanto las partes que coinciden (delimitadores) como las que no.
         // El patrón '/(\[\w+\])/' busca cualquier cosa como '[id]', '[nombre]', etc.
         
+        // /users/[id]/
+        // /users/123
+
+
         $regexParts = preg_split('/(\[\w+\])/', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         
         $regex = '';
@@ -131,6 +151,9 @@ class Router {
         // $_SERVER es una variable "superglobal" de PHP que contiene información sobre la petición, el servidor, etc.
         // $_SERVER['REQUEST_METHOD'] nos da el tipo de petición: 'GET', 'POST', etc.
         $requestMethod = $_SERVER['REQUEST_METHOD'];
+
+        # TODO: agregar todas las validaciones
+        # TODO: agregar todos los headers de seguridad
 
         // $_SERVER['REQUEST_URI'] contiene la URL completa solicitada por el usuario, incluyendo parámetros.
         // Ejemplo: Si la URL es "http://localhost/usuarios/123?page=2", REQUEST_URI será "/usuarios/123?page=2".

@@ -22,7 +22,8 @@ $router = new Router($basePath);
 // En una aplicación real, aquí podrías usar un controlador, por ejemplo: 'UserController@index'.
 
 // Auth System
-$router->get('/login', 'AuthController@LoginPage' );
+# TODO: agregar validador de datos en el tercer parámetro
+$router->get('/login', 'AuthController@LoginPage');
 $router->get('/register', 'AuthController@RegisterPage');
 $router->post('/api/auth/login', 'AuthController@login');
 $router->post('/api/auth/register', 'AuthController@register');
