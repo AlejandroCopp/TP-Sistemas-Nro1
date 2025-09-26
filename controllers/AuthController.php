@@ -5,7 +5,7 @@ require_once 'db/Database.php';
 
 # hay correcciones, chequear los comentarios que empiezan por los simbolos #!
 
-abstract class AuthController {
+class AuthController {
     private $userModel;
 
     public function __construct() {

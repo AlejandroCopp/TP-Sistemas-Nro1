@@ -19,7 +19,7 @@
                 <div class="grow">
                     <span class="block text-sm font-semibold text-gray-800 dark:text-neutral-200">
                         <?php
-                          echo "<td>$cellContent</td>";
+                          echo "$cellContent";
                           ?>
                     </span>
                 </div>
