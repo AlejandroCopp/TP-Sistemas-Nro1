@@ -62,6 +62,11 @@ class AuthController {
         }
 
         if ($this->userModel->createUser($name, $email, $password, 'jugador')) {
+            session_start();
+            $_SESSION["name"] = $name;
+            $_SESSION["email"] = $email;
+            $_SESSION["role"] = $role; 
+            
             http_response_code(201);
             $response = ["message" => "Usuario registrado con éxito."];
             $this->logger->info('Response: 201 Created', ['body' => $response]);
@@ -73,30 +78,27 @@ class AuthController {
             echo json_encode($response);
         }
     }
-
+    
     public function login() {
         header('Content-Type: application/json');
         $this->logger->info('Request: POST /api/auth/login', ['body' => $_POST]);
-
+        
         $email = $_POST['email'] ?? null;
         $password = $_POST['password'] ?? null;
-
+        
         $user = $this->userModel->getUserByEmail($email, "id, name, role, password_hash");
-
+        
         if ($user && password_verify($password, $user['password_hash'])) {
             // Note: In a stateless API, you would generate and return a token (e.g., JWT) here.
             // For now, we return user data and a success message.
-            http_response_code(200);
-            $response = [
-                "message" => "Login successful.",
-                "user" => [
-                    "id" => $user["id"],
-                    "name" => $user["name"],
-                    "role" => $user["role"]
-                ]
-            ];
+            session_start();
+            $_SESSION["name"] = $name;
+            $_SESSION["email"] = $email;
+            $_SESSION["role"] = $role;
+
             $this->logger->info('Response: 200 OK', ['body' => $response]);
-            echo json_encode($response);
+            
+            header("Location:/");
         } else {
             http_response_code(401);
             $response = ["message" => "Credenciales inválidas."];
@@ -109,6 +111,10 @@ class AuthController {
         header('Content-Type: application/json');
         $this->logger->info('Request: POST /api/auth/logout');
         
+
+        session_start();
+        session_unset();
+        session_destroy();
         // In a stateless API, the client is responsible for destroying the token.
         // The server just confirms the logout action.
         http_response_code(200);

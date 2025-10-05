@@ -10,6 +10,8 @@ function Home() {
       <?php echo $_SESSION["user_role"];?>
     </h1>
 
+
+
     <?php 
       $database = new Database();
       $User = new UserModel($database->getConnection());

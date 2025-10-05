@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 // 1. Incluir el archivo del Router
 // __DIR__ es una constante de PHP que devuelve la ruta del directorio donde se encuentra este archivo (index.php).
 require_once __DIR__ . '/views/Layout.php';
-require_once __DIR__ . '/lib/Router.php';
+require_once __DIR__ . '/lib/router.php';
 
 // 2. Definir el "base path" de tu proyecto.
 // Esto es necesario si tu proyecto no está en la raíz de tu dominio (ej. http://localhost/)
@@ -41,7 +41,26 @@ $router->delete('/api/admin/users', 'AdminController@deleteUsers');
 
 // Application
 $router->get('/', 'AppController@MainPage');
+// GET /registrarse
+$router->get('/register', function() {
+    require_once __DIR__ . '/views/register.php';
+    Layout(register());
+});
 
+// GET /admin/usuarios  (Read - Leer todos los usuarios)
+$router->get('/admin/usuarios', function() {
+    require_once __DIR__ . '/views/GestionarUsuarios.php';
+    Layout(GestionarUsuarios());
+});
+
+
+
+
+// session_set_cookie_params([
+//     'httponly' => true,
+//     //'secure' => true,
+//     'samesite' => 'Lax' // 'Strict',
+// ]);
 
 // 5. Ejecutar el router.
 // Esta es la línea más importante. Procesa la URL solicitada por el navegador

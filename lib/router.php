@@ -40,6 +40,7 @@ class Router {
      * @param mixed $handler La acción a realizar. Puede ser una función directa o un texto como 'NombreControlador@nombreMetodo'.
      */
     public function get(...$args) {
+        var_dump(json_encode($args));
         $this->addRoute('GET', ...$args);
     }
 
@@ -50,8 +51,8 @@ class Router {
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
-    public function post($path, $handler) {
-        $this->addRoute('POST', $path, $handler);
+    public function post(...$args) {
+        $this->addRoute('POST', ...$args);
     }
 
     /**
@@ -61,8 +62,8 @@ class Router {
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
-    public function PUT($path, $handler) {
-        $this->addRoute('PUT', $path, $handler);
+    public function PUT(...$args) {
+        $this->addRoute('PUT', ...$args);
     }
 
     /**
@@ -77,31 +78,47 @@ class Router {
         $this->addRoute('DELETE', ...$args);
     }
 
-    /**
-     * Método interno para añadir una ruta a la "libreta de direcciones".
-     * Convierte las rutas dinámicas (ej: /usuarios/[id]) en un formato técnico (expresión regular)
-     * que PHP puede entender para hacer coincidencias.
-     *
-     * @param string $method El tipo de petición (GET, POST, etc.).
-     * @param string $path La dirección URL.
-     * @param mixed $handler La acción a realizar.
-     */
-
-     # TODO: terminar checkRole
-    private function checkRole($role_needed){
-        $is_allowed = false;
-
-        if(isset($_SESSION)) {
-            $is_allowed = $_SESSION["role"] === $role_needed;
-        }  
-
-        if( !$is_allowed ){
-            return ?><script> Alert()</script><?php
+    public function checkRole($role) {
+        
+        $userRole = $_SESSION["role"];
+        
+        if (is_array($role)) {
+            foreach ($role as $item) {
+                if ($item === $userRole) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return $role === $userRole;
         }
     }
-    
-    private function addRoute($method, $path, $handler) {
-        // $h = $this->checkRole($role_needed);
+
+    // /**
+    //  * Método interno para añadir una ruta a la "libreta de direcciones".
+    //  * Convierte las rutas dinámicas (ej: /usuarios/[id]) en un formato técnico (expresión regular)
+    //  * que PHP puede entender para hacer coincidencias.
+    //  *
+    //  * @param string $method El tipo de petición (GET, POST, etc.).
+    //  * @param string $path La dirección URL.
+    //  * @param mixed $handler La acción a realizar.
+    //  */
+
+    //  # TODO: terminar checkRole
+    // private function checkRole($role_needed){
+        //     $is_allowed = false;
+        
+        //     if(isset($_SESSION)) {
+            //         $is_allowed = $_SESSION["role"] === $role_needed;
+            //     }  
+            
+            //     if( !$is_allowed ){
+                // return 
+                //     }
+                // }
+                
+                // $h = $this->checkRole($role_needed);
+    private function addRoute($method, $path, $handler, $role="") {
         // Este método convierte de forma segura una ruta con partes dinámicas y estáticas en una expresión regular.
         // Por ejemplo, la ruta '/user/(test)/[id]' se convertirá en una regex que busca literalmente '/user/(test)/'
         // y luego captura cualquier caracter hasta la siguiente barra para el [id].
@@ -109,6 +126,16 @@ class Router {
         // 1. Dividimos la ruta en partes estáticas y dinámicas.
         // Usamos preg_split con PREG_SPLIT_DELIM_CAPTURE para conservar tanto las partes que coinciden (delimitadores) como las que no.
         // El patrón '/(\[\w+\])/' busca cualquier cosa como '[id]', '[nombre]', etc.
+        if (!isset($_SESSION['role'])) {
+            $_SESSION['role'] = 'guest';
+        } 
+        if(!empty($role) && !$this->checkRole($role)){
+            var_dump($_SESSION);
+            var_dump($role);
+            var_dump($this->checkRole($role));
+            // header('Location: /no-autorizado.php'); // o renderizar una vista - TODO: custom messages errors
+            exit;
+        }
         
         // /users/[id]/
         // /users/123

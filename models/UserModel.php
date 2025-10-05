@@ -24,7 +24,7 @@ class UserModel {
     }
 
     # trae los datos de los usuarios segun su email
-    public function getUserByEmail($email, $data="id, name, email, password_hash, role") {
+    public function getUserByEmail($email, $data="id, name, email, role") {
         $sql = "SELECT $data FROM users WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email);
