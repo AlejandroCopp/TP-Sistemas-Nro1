@@ -85,5 +85,36 @@ class UserModel {
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
+
+    public function updateUser($id, $data) {
+        if (empty($data)) {
+            return false;
+        }
+
+        $sql = "UPDATE users SET ";
+        $params = [];
+        foreach ($data as $key => $value) {
+            $sql .= "`$key` = ?, ";
+            $params[] = $value;
+        }
+        $sql = rtrim($sql, ', ');
+        $sql .= " WHERE id = ?";
+        $params[] = $id;
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    public function deleteUsers($ids) {
+        if (empty($ids)) {
+            return false;
+        }
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $sql = "DELETE FROM users WHERE id IN ($placeholders)";
+        
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($ids);
+    }
 }
 ?>

@@ -200,7 +200,7 @@ function Table($headers, $rows = []){
             });
 
             fetch(`/api/admin/user/${id}`, {
-                method: 'PATCH',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
