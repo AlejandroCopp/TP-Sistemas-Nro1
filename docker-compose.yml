@@ -12,7 +12,7 @@ services:
     environment:
       - DB_HOST=db
       - DB_NAME=TP-Sistemas-nro1
-      - DB_USER=root 
+      - DB_USER=root
       - DB_PASS=
 
   db:
@@ -26,6 +26,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./users.sql:/docker-entrypoint-initdb.d/init.sql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
