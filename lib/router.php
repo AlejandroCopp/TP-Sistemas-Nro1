@@ -39,8 +39,8 @@ class Router {
      * @param string $path La dirección URL que se quiere registrar. Puede contener partes dinámicas como /usuarios/[id].
      * @param mixed $handler La acción a realizar. Puede ser una función directa o un texto como 'NombreControlador@nombreMetodo'.
      */
-    public function get($path, $handler) {
-        $this->addRoute('GET', $path, $handler);
+    public function get(...$args) {
+        $this->addRoute('GET', $args);
     }
 
     /**
@@ -50,8 +50,8 @@ class Router {
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
-    public function post($path, $handler) {
-        $this->addRoute('POST', $path, $handler);
+    public function post(...$args) {
+        $this->addRoute('POST', $args);
     }
 
     /**
@@ -61,8 +61,8 @@ class Router {
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
-    public function PUT($path, $handler) {
-        $this->addRoute('PUT', $path, $handler);
+    public function PUT(...$args) {
+        $this->addRoute('PUT', $args);
     }
 
     /**
@@ -72,8 +72,25 @@ class Router {
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
-    public function delete($path, $handler) {
-        $this->addRoute('DELETE', $path, $handler);
+    public function delete(...$args) {
+        $this->addRoute('DELETE', $args);
+    }
+
+    public function checkRole($role) {
+        session_start();
+
+        $userRole = $_SESSION["role"];
+        
+        if (is_array($role)) {
+            foreach ($role as $item) {
+                if ($item === $userRole) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return $role === $userRole;
+        }
     }
 
     /**
@@ -85,7 +102,7 @@ class Router {
      * @param string $path La dirección URL.
      * @param mixed $handler La acción a realizar.
      */
-    private function addRoute($method, $path, $handler) {
+    private function addRoute($method, $path, $handler, $role) {
         // Este método convierte de forma segura una ruta con partes dinámicas y estáticas en una expresión regular.
         // Por ejemplo, la ruta '/user/(test)/[id]' se convertirá en una regex que busca literalmente '/user/(test)/'
         // y luego captura cualquier caracter hasta la siguiente barra para el [id].
@@ -93,6 +110,11 @@ class Router {
         // 1. Dividimos la ruta en partes estáticas y dinámicas.
         // Usamos preg_split con PREG_SPLIT_DELIM_CAPTURE para conservar tanto las partes que coinciden (delimitadores) como las que no.
         // El patrón '/(\[\w+\])/' busca cualquier cosa como '[id]', '[nombre]', etc.
+
+        if($role && !checkRole($role)){
+            header('Location: /no-autorizado.php'); // o renderizar una vista - TODO: custom messages errors
+            exit;
+        }
         
         $regexParts = preg_split('/(\[\w+\])/', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         
