@@ -144,7 +144,7 @@ function Table($headers, $rows = []){
             const selectedIds = Array.from(table.querySelectorAll('.row-checkbox:checked')).map(cb => cb.dataset.id);
             
             if (selectedIds.length > 0 && confirm(`Are you sure you want to delete ${selectedIds.length} selected users?`)) {
-                fetch(`/api/admin/users`, {
+                fetch('/api/admin/users', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -152,19 +152,21 @@ function Table($headers, $rows = []){
                     body: JSON.stringify({ ids: selectedIds }),
                 })
                 .then(response => {
-                    if (response.ok) {
-                        selectedIds.forEach(id => {
-                            document.getElementById(`user-row-${id}`).remove();
-                        });
-                        updateDeleteButtonVisibility();
-                        selectAllCheckbox.checked = false;
-                    } else {
-                        alert('Failed to delete selected users.');
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to delete selected users.') });
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    selectedIds.forEach(id => {
+                        document.getElementById(`user-row-${id}`).remove();
+                    });
+                    updateDeleteButtonVisibility();
+                    selectAllCheckbox.checked = false;
                 })
                 .catch(error => {
                     console.error('Error deleting users:', error);
-                    alert('An error occurred while deleting users.');
+                    alert('Deletion failed: ' + error.message);
                 });
             }
         });
@@ -189,14 +191,11 @@ function Table($headers, $rows = []){
         function handleSaveClick(saveBtn) {
             const row = saveBtn.closest('tr');
             const id = saveBtn.dataset.id;
-            const data = {};
+            const requestBody = {};
 
             const inputs = row.querySelectorAll('.edit-input');
             inputs.forEach(input => {
-                // Only include name and email in the patch data, as per the comment
-                if(input.dataset.field === 'name' || input.dataset.field === 'email'){
-                    data[input.dataset.field] = input.value;
-                }
+                requestBody[input.dataset.field] = input.value;
             });
 
             fetch(`/api/admin/user/${id}`, {
@@ -204,16 +203,15 @@ function Table($headers, $rows = []){
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(requestBody),
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(err => { throw new Error(err.error || 'Network response was not ok') });
                 }
                 return response.json();
             })
             .then(updatedData => {
-                // Update the UI with the new data
                 const cells = row.querySelectorAll('.data-cell');
                 cells.forEach(cell => {
                     const field = cell.dataset.field;
@@ -225,8 +223,8 @@ function Table($headers, $rows = []){
             })
             .catch(error => {
                 console.error('There has been a problem with your fetch operation:', error);
-                // Optionally, revert UI changes or show an error message
-                toggleEditMode(row, false); // Revert to view mode on error
+                alert('Update failed: ' + error.message);
+                toggleEditMode(row, false);
             });
         }
 
@@ -237,15 +235,17 @@ function Table($headers, $rows = []){
                     method: 'DELETE',
                 })
                 .then(response => {
-                    if (response.ok) {
-                        deleteBtn.closest('tr').remove();
-                    } else {
-                        alert('Failed to delete user.');
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to delete user.') });
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    deleteBtn.closest('tr').remove();
                 })
                 .catch(error => {
                     console.error('Error deleting user:', error);
-                    alert('An error occurred while deleting the user.');
+                    alert('Deletion failed: ' + error.message);
                 });
             }
         }
@@ -257,16 +257,11 @@ function Table($headers, $rows = []){
             const saveBtn = row.querySelector('.save-btn');
 
             dataCells.forEach(cell => {
-                // Only make name and email editable
-                if(cell.dataset.field === 'name' || cell.dataset.field === 'email'){
-                    cell.classList.toggle('hidden', isEditing);
-                }
+                cell.classList.toggle('hidden', isEditing);
             });
 
             editInputs.forEach(input => {
-                if(input.dataset.field === 'name' || input.dataset.field === 'email'){
-                    input.classList.toggle('hidden', !isEditing);
-                }
+                input.classList.toggle('hidden', !isEditing);
             });
 
             editBtn.classList.toggle('hidden', isEditing);

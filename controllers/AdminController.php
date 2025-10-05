@@ -22,7 +22,7 @@ class AdminController {
             $headers = array_keys($users[0]);
         }
 
-        require_once 'views/GestionarUsuarios.php';
+        require_once 'views/AdminUsers.php';
         Layout(GestionarUsuarios($headers, $users));
     }
 
