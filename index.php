@@ -47,16 +47,26 @@ $router->get('/admin/usuarios', function() {
     Layout(GestionarUsuarios());
 });
 
+$router->get('/', function() {
+    require_once __DIR__ . '/views/Home.php';
+    Layout(Home());
+}, $role = 'admin'); // or ['user', 'admin', 'superadmin']
 
-$router->post('/api/auth/login', 'AuthController@login');
-$router->post('/api/auth/register', 'AuthController@register');
+//$router->post('/api/auth/login', 'AuthController@login');
+//$router->post('/api/auth/register', 'AuthController@register');
+//
+//$router->get('/api/admin/users', 'AdminController@getAllUsers');
+//$router->post('/api/admin/changeUserName', 'AdminController@changeUserName');
+//$router->post('/api/admin/changeUserEmail', 'AdminController@changeUserEmail');
+//$router->post('/api/admin/changeUserRole', 'AdminController@changeUserRole');
+//$router->post('/api/admin/resetUserPassword', 'AdminController@resetUserPassword');
 
-$router->get('/api/admin/users', 'AdminController@getAllUsers');
-$router->post('/api/admin/changeUserName', 'AdminController@changeUserName');
-$router->post('/api/admin/changeUserEmail', 'AdminController@changeUserEmail');
-$router->post('/api/admin/changeUserRole', 'AdminController@changeUserRole');
-$router->post('/api/admin/resetUserPassword', 'AdminController@resetUserPassword');
 
+session_set_cookie_params([
+    'httponly' => true,
+    //'secure' => true,
+    'samesite' => 'Lax' // 'Strict',
+]);
 
 // 5. Ejecutar el router.
 // Esta es la línea más importante. Procesa la URL solicitada por el navegador
