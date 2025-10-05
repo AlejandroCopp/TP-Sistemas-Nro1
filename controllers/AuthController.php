@@ -2,23 +2,22 @@
 
 require_once 'models/UserModel.php';
 require_once 'db/Database.php';
-
-# hay correcciones, chequear los comentarios que empiezan por los simbolos #!
+require_once 'lib/Logger.php';
 
 class AuthController {
     private $userModel;
+    private $logger;
 
     public function __construct() {
         $database = new Database();
         $this->userModel = new UserModel($database->getConnection());
-    }
-
-    public function checkRole(){
-        return 0;
+        $this->logger = Logger::getInstance();
     }
 
     public function LoginPage(){
-        session_start();
+        // This method renders a page, so it doesn't return JSON.
+        // Session logic is still needed for page access control.
+        @session_start();
         if(isset($_SESSION["user_id"])){
             header("location:/");
         }else{
@@ -28,79 +27,93 @@ class AuthController {
     }
 
     public function RegisterPage(){
-        session_start();
+        // This method renders a page, so it doesn't return JSON.
+        @session_start();
         if(isset($_SESSION["user_id"])){
             header("location:/");
         }else{
             require_once 'views/register.php';
             Layout(register());
         }
-
     }
 
     public function register() {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        header('Content-Type: application/json');
+        $this->logger->info('Request: POST /api/auth/register', ['body' => $_POST]);
 
-        #! falta hashear la password
+        $name = $_POST['name'] ?? null;
+        $email = $_POST['email'] ?? null;
+        $password = $_POST['password'] ?? null;
+
+        if (empty($name) || empty($email) || empty($password)) {
+            http_response_code(400);
+            $response = ["message" => "Name, email, and password are required."];
+            $this->logger->error('Response: 400 Bad Request', ['body' => $response]);
+            echo json_encode($response);
+            return;
+        }
 
         if ($this->userModel->getUserByEmail($email)) {
             http_response_code(409);
-            echo json_encode(["message" => "El usuario con este correo electrónico ya existe."]);
+            $response = ["message" => "El usuario con este correo electrónico ya existe."];
+            $this->logger->error('Response: 409 Conflict', ['body' => $response]);
+            echo json_encode($response);
             return;
         }
 
         if ($this->userModel->createUser($name, $email, $password, 'jugador')) {
-
-            session_start();
-
-            header("location:/login");
-            // http_response_code(201);
-            // echo json_encode(["message" => "Usuario registrado con éxito."]);
-            # mostrar cartelito que se ha creado la cuenta con exito
-            # redirigir al usuario al login
-            
+            http_response_code(201);
+            $response = ["message" => "Usuario registrado con éxito."];
+            $this->logger->info('Response: 201 Created', ['body' => $response]);
+            echo json_encode($response);
         } else {
             http_response_code(500);
-            echo json_encode(["message" => "Error al registrar el usuario."]);
-            header("location:/register");
+            $response = ["message" => "Error al registrar el usuario."];
+            $this->logger->error('Response: 500 Internal Server Error', ['body' => $response]);
+            echo json_encode($response);
         }
     }
 
-    public function login() { // TODO: Test pending
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+    public function login() {
+        header('Content-Type: application/json');
+        $this->logger->info('Request: POST /api/auth/login', ['body' => $_POST]);
 
-        #! falta sanitizar datos ingresados por el usuario
+        $email = $_POST['email'] ?? null;
+        $password = $_POST['password'] ?? null;
 
         $user = $this->userModel->getUserByEmail($email, "id, name, role, password_hash");
 
-        if ($user && password_verify($password, $user['password_hash'])) { 
-            
-            session_start();
-
-            $_SESSION["user_id"] = $user["id"];
-            $_SESSION["user_name"] = $user["name"];
-            $_SESSION["user_role"] = $user["role"];
-            # lo reenvio al, el home tiene que validar que la sesion esté iniciada
-            header("location:/");
-            //$token = $this->generateToken($user['id']);
-
-            //# Responde como API
-            // http_response_code(200);
-            // echo json_encode(["token" => $token, "user_id" => $user['id']]);
+        if ($user && password_verify($password, $user['password_hash'])) {
+            // Note: In a stateless API, you would generate and return a token (e.g., JWT) here.
+            // For now, we return user data and a success message.
+            http_response_code(200);
+            $response = [
+                "message" => "Login successful.",
+                "user" => [
+                    "id" => $user["id"],
+                    "name" => $user["name"],
+                    "role" => $user["role"]
+                ]
+            ];
+            $this->logger->info('Response: 200 OK', ['body' => $response]);
+            echo json_encode($response);
         } else {
             http_response_code(401);
-            echo json_encode(["message" => "Credenciales inválidas."]);
+            $response = ["message" => "Credenciales inválidas."];
+            $this->logger->error('Response: 401 Unauthorized', ['body' => $response, 'email' => $email]);
+            echo json_encode($response);
         }
     }
 
     public function logout(){
-        session_start();
-        session_unset();
-        session_destroy();
-        header("Location:/");
+        header('Content-Type: application/json');
+        $this->logger->info('Request: POST /api/auth/logout');
+        
+        // In a stateless API, the client is responsible for destroying the token.
+        // The server just confirms the logout action.
+        http_response_code(200);
+        $response = ["message" => "Logout successful."];
+        $this->logger->info('Response: 200 OK', ['body' => $response]);
+        echo json_encode($response);
     }
-    
 }

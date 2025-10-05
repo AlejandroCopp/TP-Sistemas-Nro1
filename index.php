@@ -32,10 +32,9 @@ $router->post('/api/auth/logout', 'AuthController@logout');
 // Admin System
 $router->get('/admin/usuarios', 'AdminController@AdminPage');
 $router->get('/api/admin/users', 'AdminController@getAllUsers');
-$router->post('/api/admin/changeUserName', 'AdminController@changeUserName');
-$router->post('/api/admin/changeUserEmail', 'AdminController@changeUserEmail');
-$router->post('/api/admin/changeUserRole', 'AdminController@changeUserRole');
-$router->post('/api/admin/resetUserPassword', 'AdminController@resetUserPassword');
+$router->put('/api/admin/user/[id]', 'AdminController@updateUser');
+$router->delete('/api/admin/user/[id]', 'AdminController@deleteUser');
+$router->delete('/api/admin/users', 'AdminController@deleteUsers');
 
 
   
