@@ -25,12 +25,12 @@ $router = new Router($basePath);
 # TODO: agregar validador de datos en el tercer parámetro
 $router->get('/login', 'AuthController@LoginPage');
 $router->get('/register', 'AuthController@RegisterPage');
+$router->get('/logout', 'AuthController@logout');
 $router->post('/api/auth/login', 'AuthController@login');
 $router->post('/api/auth/register', 'AuthController@register');
-$router->post('/api/auth/logout', 'AuthController@logout');
 
 // Admin System
-$router->get('/admin/usuarios', 'AdminController@AdminPage');
+$router->get('/admin/usuarios', 'AdminController@AdminPage',"admin");
 $router->get('/api/admin/users', 'AdminController@getAllUsers');
 $router->put('/api/admin/user/[id]', 'AdminController@updateUser');
 $router->delete('/api/admin/user/[id]', 'AdminController@deleteUser');
@@ -41,17 +41,17 @@ $router->delete('/api/admin/users', 'AdminController@deleteUsers');
 
 // Application
 $router->get('/', 'AppController@MainPage');
-// GET /registrarse
-$router->get('/register', function() {
-    require_once __DIR__ . '/views/register.php';
-    Layout(register());
-});
+// // GET /registrarse
+// $router->get('/register', function() {
+//     require_once __DIR__ . '/views/register.php';
+//     Layout(register());
+// });
 
-// GET /admin/usuarios  (Read - Leer todos los usuarios)
-$router->get('/admin/usuarios', function() {
-    require_once __DIR__ . '/views/GestionarUsuarios.php';
-    Layout(GestionarUsuarios());
-});
+// // GET /admin/usuarios  (Read - Leer todos los usuarios)
+// $router->get('/admin/usuarios', function() {
+//     require_once __DIR__ . '/views/GestionarUsuarios.php';
+//     Layout(GestionarUsuarios());
+// });
 
 
 

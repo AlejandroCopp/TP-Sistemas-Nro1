@@ -9,7 +9,6 @@ function Landing(){
 
 ?>
 <body class="bg-gray-900 text-white">
-    <?php $_SESSION["user_id"];?>
 
     <!-- ========== HEADER ========== -->
     <header class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-gray-900 bg-opacity-80 backdrop-blur-sm text-sm py-3 sm:py-0 fixed top-0">

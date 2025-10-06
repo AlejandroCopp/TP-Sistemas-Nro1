@@ -13,7 +13,7 @@ class AppController{
 
   public function MainPage(){
     session_start();
-    if(isset($_SESSION["user_id"])){
+    if(isset($_SESSION["role"])){
       require_once 'views/Home.php';
       Layout(Home());
     }else{

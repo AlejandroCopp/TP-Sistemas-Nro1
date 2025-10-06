@@ -86,17 +86,18 @@ class AuthController {
         $email = $_POST['email'] ?? null;
         $password = $_POST['password'] ?? null;
         
-        $user = $this->userModel->getUserByEmail($email, "id, name, role, password_hash");
+        $user = $this->userModel->getUserByEmail($email, "id, name, email, role, password_hash");
         
         if ($user && password_verify($password, $user['password_hash'])) {
             // Note: In a stateless API, you would generate and return a token (e.g., JWT) here.
             // For now, we return user data and a success message.
             session_start();
-            $_SESSION["name"] = $name;
-            $_SESSION["email"] = $email;
-            $_SESSION["role"] = $role;
+            // var_dump($user);
+            $_SESSION["name"] = $user["name"];
+            $_SESSION["email"] = $user["email"];
+            $_SESSION["role"] = $user["role"];
 
-            $this->logger->info('Response: 200 OK', ['body' => $response]);
+            // $this->logger->info('Response: 200 OK', ['body' => $response]);
             
             header("Location:/");
         } else {

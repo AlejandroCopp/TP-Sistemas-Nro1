@@ -40,7 +40,7 @@ class Router {
      * @param mixed $handler La acción a realizar. Puede ser una función directa o un texto como 'NombreControlador@nombreMetodo'.
      */
     public function get(...$args) {
-        var_dump(json_encode($args));
+        // var_dump(json_encode($args));
         $this->addRoute('GET', ...$args);
     }
 
@@ -130,10 +130,13 @@ class Router {
             $_SESSION['role'] = 'guest';
         } 
         if(!empty($role) && !$this->checkRole($role)){
-            var_dump($_SESSION);
-            var_dump($role);
-            var_dump($this->checkRole($role));
-            // header('Location: /no-autorizado.php'); // o renderizar una vista - TODO: custom messages errors
+            // var_dump($_SESSION);
+            // var_dump($role);
+            // var_dump($this->checkRole($role));
+            
+
+            require_once "views/noAutorizado.php"; // o renderizar una vista - TODO: custom messages errors
+            noAutorizado($role);
             exit;
         }
         

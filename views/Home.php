@@ -5,9 +5,8 @@ require_once  "db/Database.php";
 function Home() { 
   ?>
     <h1>Home, Hola 
-      <?php echo $_SESSION["user_id"];?>
-      <?php echo $_SESSION["user_name"];?>
-      <?php echo $_SESSION["user_role"];?>
+      <?php echo $_SESSION["name"];?>
+      <?php echo $_SESSION["role"];?>
     </h1>
 
 
