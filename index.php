@@ -30,15 +30,11 @@ $router->post('/api/auth/login', 'AuthController@login');
 $router->post('/api/auth/register', 'AuthController@register');
 
 // Admin System
-$router->get('/admin/usuarios', 'AdminController@AdminPage',"admin");
-$router->get('/api/admin/users', 'AdminController@getAllUsers');
-$router->put('/api/admin/user/[id]', 'AdminController@updateUser');
-$router->delete('/api/admin/user/[id]', 'AdminController@deleteUser');
-$router->delete('/api/admin/users', 'AdminController@deleteUsers');
-
-
-  
-
+$router->get('/admin/usuarios', 'AdminController@AdminPage', 'admin');
+$router->get('/api/admin/users', 'AdminController@getAllUsers', 'admin');
+$router->put('/api/admin/user/[id]', 'AdminController@updateUser', 'admin');
+$router->delete('/api/admin/user/[id]', 'AdminController@deleteUser', 'admin');
+$router->delete('/api/admin/users', 'AdminController@deleteUsers', 'admin');
 // Application
 $router->get('/', 'AppController@MainPage');
 // // GET /registrarse
@@ -54,7 +50,9 @@ $router->get('/', 'AppController@MainPage');
 // });
 
 
-
+if (!isset($_SESSION['role'])) {
+    $_SESSION['role'] = 'guest';
+} 
 
 // session_set_cookie_params([
 //     'httponly' => true,

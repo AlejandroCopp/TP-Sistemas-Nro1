@@ -118,7 +118,7 @@ class Router {
                 // }
                 
                 // $h = $this->checkRole($role_needed);
-    private function addRoute($method, $path, $handler, $role="") {
+    private function addRoute($method, $path, $handler, $role = "") {
         // Este método convierte de forma segura una ruta con partes dinámicas y estáticas en una expresión regular.
         // Por ejemplo, la ruta '/user/(test)/[id]' se convertirá en una regex que busca literalmente '/user/(test)/'
         // y luego captura cualquier caracter hasta la siguiente barra para el [id].
@@ -126,23 +126,6 @@ class Router {
         // 1. Dividimos la ruta en partes estáticas y dinámicas.
         // Usamos preg_split con PREG_SPLIT_DELIM_CAPTURE para conservar tanto las partes que coinciden (delimitadores) como las que no.
         // El patrón '/(\[\w+\])/' busca cualquier cosa como '[id]', '[nombre]', etc.
-        if (!isset($_SESSION['role'])) {
-            $_SESSION['role'] = 'guest';
-        } 
-        if(!empty($role) && !$this->checkRole($role)){
-            // var_dump($_SESSION);
-            // var_dump($role);
-            // var_dump($this->checkRole($role));
-            
-
-            require_once "views/noAutorizado.php"; // o renderizar una vista - TODO: custom messages errors
-            noAutorizado($role);
-            exit;
-        }
-        
-        // /users/[id]/
-        // /users/123
-
 
         $regexParts = preg_split('/(\[\w+\])/', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         
@@ -168,7 +151,8 @@ class Router {
             // - ^: "Ancla" de inicio. Asegura que la coincidencia debe empezar al principio de la URL.
             // - $: "Ancla" de fin. Asegura que la coincidencia debe terminar al final de la URL.
             'path' => '#^' . $this->basePath . $regex . '$#',
-            'handler' => $handler
+            'handler' => $handler,
+            'role' => $role
         ];
     }
 
@@ -223,6 +207,12 @@ class Router {
                 // Si el manejador es un texto como 'Controlador@metodo'.
                 if (is_string($handler) && strpos($handler, '@') !== false) {
                     list($controller, $method) = explode('@', $handler);
+
+                    if(!empty($route['role']) && !$this->checkRole($route['role'])){
+                        require_once "views/noAutorizado.php"; // o renderizar una vista - TODO: custom messages errors
+                        noAutorizado($route['role']);
+                        exit;
+                    }
 
                     // Arma la ruta al archivo del controlador.
                     $controllerFile = __DIR__ . '/../controllers/' . $controller . '.php';
