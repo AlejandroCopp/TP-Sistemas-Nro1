@@ -14,6 +14,7 @@ class UserModel {
         return $stmt->fetchall(PDO::FETCH_ASSOC);
     }
 
+    
     public function getUserById($id) {
         $sql = "SELECT id, name, email, role FROM users WHERE id = :id";
         $stmt = $this->db->prepare($sql);
@@ -22,21 +23,14 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getUserByEmail($email) {
-        $sql = "SELECT id, name, email, role FROM users WHERE email = :email";
+    # trae los datos de los usuarios segun su email
+    public function getUserByEmail($email, $data="id, name, email, role") {
+        $sql = "SELECT $data FROM users WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    //public function getUserByEmail($email) {
-    //    $sql = "SELECT id, role, password_hash FROM users WHERE id = :id";
-    //    $stmt = $this->db->prepare($sql);
-    //    $stmt->bindParam(':id', $id);
-    //    $stmt->execute();
-    //    return $stmt->fetch(PDO::FETCH_ASSOC)[0];
-    //}
 
     public function createUser($name, $email, $password, $role = 'jugador') {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
@@ -46,42 +40,45 @@ class UserModel {
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password_hash', $password_hash);
         $stmt->bindParam(':role', $role);
-        //$stmt->bindParam(':position', $position);
+        return $stmt->execute();
+    }
+
+    public function updateUser($id, $data) {
+        if (empty($data)) {
+            return false;
+        }
+
+        if (isset($data['password'])) {
+            if (!empty($data['password'])) {
+                $data['password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            }
+            unset($data['password']);
+        }
+
+        $sql = "UPDATE users SET ";
+        $params = [];
+        foreach ($data as $key => $value) {
+            $sql .= "`$key` = ?, ";
+            $params[] = $value;
+        }
+        $sql = rtrim($sql, ', ');
+        $sql .= " WHERE id = ?";
+        $params[] = $id;
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    public function deleteUsers($ids) {
+        if (empty($ids)) {
+            return false;
+        }
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $sql = "DELETE FROM users WHERE id IN ($placeholders)";
         
-        return $stmt->execute();
-    }
-
-    public function changeUserPassword($id, $new_password) {
-        $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET password_hash = ? WHERE id = :id";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':password_hash', $password_hash);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
-    }
-
-    public function changeUserName($id, $new_name) {
-        $sql = "UPDATE users SET name = :name WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':name', $new_name);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
-    }
-
-    public function changeUserEmail($id, $new_email) {
-        $sql = "UPDATE users SET email = :email WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':email', $new_email);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
-    }
-
-    public function changeUserRole($id, $new_role) {
-        $sql = "UPDATE users SET role = :role WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':role', $new_role);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        return $stmt->execute($ids);
     }
 }
 ?>

@@ -40,7 +40,8 @@ class Router {
      * @param mixed $handler La acción a realizar. Puede ser una función directa o un texto como 'NombreControlador@nombreMetodo'.
      */
     public function get(...$args) {
-        $this->addRoute('GET', $args);
+        // var_dump(json_encode($args));
+        $this->addRoute('GET', ...$args);
     }
 
     /**
@@ -51,7 +52,7 @@ class Router {
      * @param mixed $handler La acción a realizar.
      */
     public function post(...$args) {
-        $this->addRoute('POST', $args);
+        $this->addRoute('POST', ...$args);
     }
 
     /**
@@ -62,7 +63,7 @@ class Router {
      * @param mixed $handler La acción a realizar.
      */
     public function PUT(...$args) {
-        $this->addRoute('PUT', $args);
+        $this->addRoute('PUT', ...$args);
     }
 
     /**
@@ -73,12 +74,12 @@ class Router {
      * @param mixed $handler La acción a realizar.
      */
     public function delete(...$args) {
-        $this->addRoute('DELETE', $args);
+        
+        $this->addRoute('DELETE', ...$args);
     }
 
     public function checkRole($role) {
-        session_start();
-
+        
         $userRole = $_SESSION["role"];
         
         if (is_array($role)) {
@@ -93,16 +94,31 @@ class Router {
         }
     }
 
-    /**
-     * Método interno para añadir una ruta a la "libreta de direcciones".
-     * Convierte las rutas dinámicas (ej: /usuarios/[id]) en un formato técnico (expresión regular)
-     * que PHP puede entender para hacer coincidencias.
-     *
-     * @param string $method El tipo de petición (GET, POST, etc.).
-     * @param string $path La dirección URL.
-     * @param mixed $handler La acción a realizar.
-     */
-    private function addRoute($method, $path, $handler, $role) {
+    // /**
+    //  * Método interno para añadir una ruta a la "libreta de direcciones".
+    //  * Convierte las rutas dinámicas (ej: /usuarios/[id]) en un formato técnico (expresión regular)
+    //  * que PHP puede entender para hacer coincidencias.
+    //  *
+    //  * @param string $method El tipo de petición (GET, POST, etc.).
+    //  * @param string $path La dirección URL.
+    //  * @param mixed $handler La acción a realizar.
+    //  */
+
+    //  # TODO: terminar checkRole
+    // private function checkRole($role_needed){
+        //     $is_allowed = false;
+        
+        //     if(isset($_SESSION)) {
+            //         $is_allowed = $_SESSION["role"] === $role_needed;
+            //     }  
+            
+            //     if( !$is_allowed ){
+                // return 
+                //     }
+                // }
+                
+                // $h = $this->checkRole($role_needed);
+    private function addRoute($method, $path, $handler, $role = "") {
         // Este método convierte de forma segura una ruta con partes dinámicas y estáticas en una expresión regular.
         // Por ejemplo, la ruta '/user/(test)/[id]' se convertirá en una regex que busca literalmente '/user/(test)/'
         // y luego captura cualquier caracter hasta la siguiente barra para el [id].
@@ -111,11 +127,6 @@ class Router {
         // Usamos preg_split con PREG_SPLIT_DELIM_CAPTURE para conservar tanto las partes que coinciden (delimitadores) como las que no.
         // El patrón '/(\[\w+\])/' busca cualquier cosa como '[id]', '[nombre]', etc.
 
-        if($role && !checkRole($role)){
-            header('Location: /no-autorizado.php'); // o renderizar una vista - TODO: custom messages errors
-            exit;
-        }
-        
         $regexParts = preg_split('/(\[\w+\])/', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         
         $regex = '';
@@ -140,7 +151,8 @@ class Router {
             // - ^: "Ancla" de inicio. Asegura que la coincidencia debe empezar al principio de la URL.
             // - $: "Ancla" de fin. Asegura que la coincidencia debe terminar al final de la URL.
             'path' => '#^' . $this->basePath . $regex . '$#',
-            'handler' => $handler
+            'handler' => $handler,
+            'role' => $role
         ];
     }
 
@@ -153,6 +165,9 @@ class Router {
         // $_SERVER es una variable "superglobal" de PHP que contiene información sobre la petición, el servidor, etc.
         // $_SERVER['REQUEST_METHOD'] nos da el tipo de petición: 'GET', 'POST', etc.
         $requestMethod = $_SERVER['REQUEST_METHOD'];
+
+        # TODO: agregar todas las validaciones
+        # TODO: agregar todos los headers de seguridad
 
         // $_SERVER['REQUEST_URI'] contiene la URL completa solicitada por el usuario, incluyendo parámetros.
         // Ejemplo: Si la URL es "http://localhost/usuarios/123?page=2", REQUEST_URI será "/usuarios/123?page=2".
@@ -183,7 +198,6 @@ class Router {
                 array_shift($matches);
          
                 $handler = $route['handler'];
-
                 // Si el manejador es una función, la llama directamente.
                 if (is_callable($handler)) {
                     call_user_func_array($handler, $matches);
@@ -193,6 +207,12 @@ class Router {
                 // Si el manejador es un texto como 'Controlador@metodo'.
                 if (is_string($handler) && strpos($handler, '@') !== false) {
                     list($controller, $method) = explode('@', $handler);
+
+                    if(!empty($route['role']) && !$this->checkRole($route['role'])){
+                        require_once "views/noAutorizado.php"; // o renderizar una vista - TODO: custom messages errors
+                        noAutorizado($route['role']);
+                        exit;
+                    }
 
                     // Arma la ruta al archivo del controlador.
                     $controllerFile = __DIR__ . '/../controllers/' . $controller . '.php';
