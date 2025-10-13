@@ -95,12 +95,12 @@ function Register(){
       }
 
       // On successful registration, show message and redirect
-      messageDiv.textContent = data.message + ' Redirecting to login...';
+      messageDiv.textContent = data.message + ' Redirecting to app...';
       messageDiv.classList.remove('hidden');
       messageDiv.classList.add('bg-green-500');
 
       setTimeout(() => {
-        window.location.href = '/login';
+        window.location.href = '/';
       }, 2000);
 
     } catch (error) {

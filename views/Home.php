@@ -29,7 +29,10 @@ function Home() {
 
     Table (["id","name","email","role"],$rows);
     ?> 
-    <form action="/api/auth/logout" method="post">
+    <form action="/logout" method="get">
+      <input type="submit" value="cerrar sesion">
+    </form>
+    <form action="/controllers/AuthController.php" method="get">
       <input type="submit" value="cerrar sesion">
     </form>
 

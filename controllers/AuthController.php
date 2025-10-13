@@ -44,6 +44,7 @@ class AuthController {
         $name = $_POST['name'] ?? null;
         $email = $_POST['email'] ?? null;
         $password = $_POST['password'] ?? null;
+        $role = 'jugador';
 
         if (empty($name) || empty($email) || empty($password)) {
             http_response_code(400);
@@ -60,8 +61,8 @@ class AuthController {
             echo json_encode($response);
             return;
         }
-
-        if ($this->userModel->createUser($name, $email, $password, 'jugador')) {
+        
+        if ($this->userModel->createUser($name, $email, $password, $role)) {
             session_start();
             $_SESSION["name"] = $name;
             $_SESSION["email"] = $email;
@@ -118,9 +119,10 @@ class AuthController {
         session_destroy();
         // In a stateless API, the client is responsible for destroying the token.
         // The server just confirms the logout action.
-        http_response_code(200);
-        $response = ["message" => "Logout successful."];
-        $this->logger->info('Response: 200 OK', ['body' => $response]);
-        echo json_encode($response);
+        header("location: /");
+        http_response_code(302);
+        // $response = ["message" => "Logout successful."];
+        // $this->logger->info('Response: 200 OK', ['body' => $response]);
+        // echo json_encode($response);
     }
 }

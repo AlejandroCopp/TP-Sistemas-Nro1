@@ -29,3 +29,4 @@ Homestead.json
 .phpactor.json
 auth.json
 TP-Sistemas-nro1.json
+logs/api.log
