@@ -18,6 +18,5 @@ function Home () {
   
 </body>
 </html>
-
 <?php
 }?>
