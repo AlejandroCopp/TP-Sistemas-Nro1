@@ -155,3 +155,51 @@
         "message": "Logout successful."
     }
 }
+[2025-10-14 00:25:43] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "alejandrocoppoler@gmail.com",
+        "password": "123"
+    }
+}
+[2025-10-14 00:25:49] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "alejandrocoppoler@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-14 00:25:49] [ERROR] Response: 401 Unauthorized {
+    "body": {
+        "message": "Credenciales inv\u00e1lidas."
+    },
+    "email": "alejandrocoppoler@gmail.com"
+}
+[2025-10-14 00:25:52] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "alejandrocoppoler@gmail.com",
+        "password": "123"
+    }
+}
+[2025-10-14 00:26:25] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "alejandrocoppoler@gmail.com",
+        "password": "123"
+    }
+}
+[2025-10-14 00:27:56] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "alejandrocoppoler@gmail.com",
+        "password": "123"
+    }
+}
+[2025-10-14 00:29:38] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "alejandrocoppoler@gmail.com",
+        "password": "123"
+    }
+}
+[2025-10-14 00:31:39] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "alejandrocoppoler@gmail.com",
+        "password": "123"
+    }
+}

@@ -1,40 +1,23 @@
+
+<?php 
+function Home () {
+?>
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<body class="bg-gray-100 p-5">
+
+  <h1 class="text-2xl font-bold mb-4">Partidos</h1>
+  <div id="contenedor-partidos"></div>
+
+  <!-- Script de la tarjeta -->
+  <script src="public/js/CrearTarjeta.js"></script>
+  <script src="public/js/index2.js"></script>
+  
+</body>
+</html>
+
 <?php
-require_once "views/components/Table.php";  
-require_once "models/UserModel.php";
-require_once  "db/Database.php";
-function Home() { 
-  ?>
-    <h1>Home, Hola 
-      <?php echo $_SESSION["name"];?>
-      <?php echo $_SESSION["role"];?>
-    </h1>
-
-
-
-    <?php 
-      $database = new Database();
-      $User = new UserModel($database->getConnection());
-   
-    $users = ($User -> getAllUsers()) ;
-
-    $rows = [];
-    foreach ($users as $user) {
-      $rows[] = [
-        $user['id'],
-        $user['name'],
-        $user['email'],
-        $user['role'],
-      ];
-    }
-
-    Table (["id","name","email","role"],$rows);
-    ?> 
-    <form action="/logout" method="get">
-      <input type="submit" value="cerrar sesion">
-    </form>
-    <form action="/controllers/AuthController.php" method="get">
-      <input type="submit" value="cerrar sesion">
-    </form>
-
-
-<?php } ?>
+}?>
