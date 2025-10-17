@@ -103,7 +103,7 @@ class AuthController {
             header("Location:/");
         } else {
             http_response_code(401);
-            $response = ["message" => "Credenciales inválidas."];
+            $response = ["message" => "Credenciales invalidas."];
             $this->logger->error('Response: 401 Unauthorized', ['body' => $response, 'email' => $email]);
             echo json_encode($response);
         }

@@ -19,7 +19,13 @@ class AppController{
     }else{
       require_once 'views/Landing.php';
         Layout(Landing());
+      }
     }
+    
+  public function MatchPage($match_id){
+    require_once 'views/Match.php';
+    Layout(MatchPage($match_id));
+
   }
 }
 
