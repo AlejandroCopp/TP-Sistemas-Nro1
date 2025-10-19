@@ -464,3 +464,15 @@
         "password": "1234"
     }
 }
+[2025-10-19 22:59:59] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-19 23:00:56] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
