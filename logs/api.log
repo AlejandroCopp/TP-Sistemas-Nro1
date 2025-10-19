@@ -458,3 +458,9 @@
     }
 }
 [2025-10-17 00:35:54] [INFO] Request: POST /api/auth/logout 
+[2025-10-19 16:09:50] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
