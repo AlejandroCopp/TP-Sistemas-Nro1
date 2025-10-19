@@ -12,4 +12,4 @@ require_once __DIR__ . '/components/backend/ComponenteAle.php';
     
     ?>
     
-    <?php MiComponente("Este es un texto de ejemplo"); // 2. Llamar ?>
+    <?php ComponenteAle("Este es un texto de ejemplo"); // 2. Llamar ?>
