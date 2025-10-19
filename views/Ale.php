@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/components/ComponenteAle.php';
+require_once __DIR__ . '/components/backend/ComponenteAle.php';
 
     function Ale() {
         # la logica de tu componente aquí

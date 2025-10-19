@@ -155,3 +155,306 @@
         "message": "Logout successful."
     }
 }
+[2025-10-12 23:15:34] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-12 23:16:01] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:16:01] [ERROR] Response: 409 Conflict {
+    "body": {
+        "message": "El usuario con este correo electr\u00f3nico ya existe."
+    }
+}
+[2025-10-12 23:16:40] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "KjUoKeIlN.10"
+    }
+}
+[2025-10-12 23:16:40] [ERROR] Response: 401 Unauthorized {
+    "body": {
+        "message": "Credenciales inv\u00e1lidas."
+    },
+    "email": "joelkukin@gmail.com"
+}
+[2025-10-12 23:17:36] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joel.c.kukin@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:17:36] [INFO] Response: 201 Created {
+    "body": {
+        "message": "Usuario registrado con \u00e9xito."
+    }
+}
+[2025-10-12 23:18:48] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joel.c.kukin@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:18:48] [ERROR] Response: 409 Conflict {
+    "body": {
+        "message": "El usuario con este correo electr\u00f3nico ya existe."
+    }
+}
+[2025-10-12 23:19:45] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joel.cc.kukin@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:19:45] [INFO] Response: 201 Created {
+    "body": {
+        "message": "Usuario registrado con \u00e9xito."
+    }
+}
+[2025-10-12 23:20:51] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:20:52] [INFO] Response: 201 Created {
+    "body": {
+        "message": "Usuario registrado con \u00e9xito."
+    }
+}
+[2025-10-12 23:21:08] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:21:08] [ERROR] Response: 409 Conflict {
+    "body": {
+        "message": "El usuario con este correo electr\u00f3nico ya existe."
+    }
+}
+[2025-10-12 23:21:35] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin2@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:21:36] [INFO] Response: 201 Created {
+    "body": {
+        "message": "Usuario registrado con \u00e9xito."
+    }
+}
+[2025-10-12 23:25:19] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:25:19] [ERROR] Response: 409 Conflict {
+    "body": {
+        "message": "El usuario con este correo electr\u00f3nico ya existe."
+    }
+}
+[2025-10-12 23:25:28] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin3@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:25:28] [INFO] Response: 201 Created {
+    "body": {
+        "message": "Usuario registrado con \u00e9xito."
+    }
+}
+[2025-10-12 23:27:12] [INFO] Request: POST /api/auth/logout 
+[2025-10-12 23:27:12] [INFO] Response: 200 OK {
+    "body": {
+        "message": "Logout successful."
+    }
+}
+[2025-10-12 23:27:40] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin4@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-12 23:27:41] [INFO] Response: 201 Created {
+    "body": {
+        "message": "Usuario registrado con \u00e9xito."
+    }
+}
+[2025-10-12 23:29:50] [INFO] Request: POST /api/auth/logout 
+[2025-10-12 23:29:50] [INFO] Response: 200 OK {
+    "body": {
+        "message": "Logout successful."
+    }
+}
+[2025-10-14 00:47:35] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-14 00:48:02] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-14 00:49:48] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-14 00:49:59] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "2345"
+    }
+}
+[2025-10-14 00:49:59] [ERROR] Response: 401 Unauthorized {
+    "body": {
+        "message": "Credenciales inv\u00e1lidas."
+    },
+    "email": "joelkukin@gmail.com"
+}
+[2025-10-14 00:52:53] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-14 00:54:30] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-14 00:54:47] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-14 00:54:47] [ERROR] Response: 409 Conflict {
+    "body": {
+        "message": "El usuario con este correo electr\u00f3nico ya existe."
+    }
+}
+[2025-10-14 00:54:50] [INFO] Request: POST /api/auth/register {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "name": "joel",
+        "password": "1234",
+        "confirm-password": "1234"
+    }
+}
+[2025-10-14 00:54:50] [ERROR] Response: 409 Conflict {
+    "body": {
+        "message": "El usuario con este correo electr\u00f3nico ya existe."
+    }
+}
+[2025-10-14 00:55:03] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-14 00:56:19] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-14 00:56:53] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 09:46:52] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 09:55:39] [INFO] Request: POST /api/auth/logout 
+[2025-10-16 10:16:27] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 11:23:35] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 21:08:58] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 23:14:31] [INFO] Request: POST /api/auth/logout 
+[2025-10-16 23:17:27] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 23:26:28] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 23:27:33] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 23:28:45] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-16 23:57:21] [INFO] Request: POST /api/auth/login {
+    "body": {
+        "email": "joelkukin1@gmail.com",
+        "password": "1234"
+    }
+}
+[2025-10-17 00:35:54] [INFO] Request: POST /api/auth/logout 
