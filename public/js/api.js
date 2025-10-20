@@ -19,18 +19,20 @@ export async function fetchMatches(searchTerm = '') {
     await new Promise(resolve => setTimeout(resolve, 500));
 
     // Mock data
+    // const mockMatches = []
     const mockMatches = [
         {
-            matchId:"1",
+            matchId:"1", // cambiar por "id"
             tipo: 'partido',
-            category: 'jugadores',
-            location: 'callecanchita 123, palermo',
-            playerCount: '8/10',
-            title: 'Equipo A vs Equipo B',
+            category: 'jugadores', // borrar
+            location: 'callecanchita 123, palermo', 
+            maxPlayers: 10,
+            actualPlayers: 8,
+            title: 'Equipo A vs Equipo B', // renombrar como "name"
             matchType: '5 vs 5',
             dateTime: 'Hoy 18:00 hs',
             status: 'jugando',
-            imageUrl: 'https://via.placeholder.com/150/28a745/ffffff?text=Cancha'
+            imageUrl: 'public/CanchaImage.png'
         },
         {
             matchId:"2",
@@ -42,7 +44,7 @@ export async function fetchMatches(searchTerm = '') {
             matchType: '5 vs 5',
             dateTime: 'Hoy 19:30 hs',
             status: 'abierto',
-            imageUrl: 'https://via.placeholder.com/150/007bff/ffffff?text=Cancha'
+            imageUrl: 'public/CanchaImage.png'
         },
         {
             matchId:"3",
@@ -54,7 +56,7 @@ export async function fetchMatches(searchTerm = '') {
             matchType: '5 vs 5',
             dateTime: 'Mañana 20:00 hs',
             status: 'abierto',
-            imageUrl: 'https://via.placeholder.com/150/dc3545/ffffff?text=Cancha'
+            imageUrl: 'public/CanchaImage.png'
         },
         {
             matchId:"4",
@@ -66,7 +68,7 @@ export async function fetchMatches(searchTerm = '') {
             matchType: 'Fútbol 11',
             dateTime: 'Hoy 21:00 hs',
             status: 'completo',
-            imageUrl: 'https://via.placeholder.com/150/ffc107/ffffff?text=Cancha'
+            imageUrl: 'public/CanchaImage.png'
         },
         {
             matchId: "5",
@@ -90,7 +92,7 @@ export async function fetchMatches(searchTerm = '') {
             matchType: '5 vs 5',
             dateTime: 'Mañana 19:00 hs',
             status: 'Buscando jugadores',
-            imageUrl: 'https://via.placeholder.com/150/eeeeee/000000?text=Sin+Imagen'
+            imageUrl: 'public/CanchaImage.png+Imagen'
         }
     ];
 
