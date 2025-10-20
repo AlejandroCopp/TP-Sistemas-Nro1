@@ -29,12 +29,17 @@ $router->get('/logout', 'AuthController@logout');
 $router->post('/api/auth/login', 'AuthController@login');
 $router->post('/api/auth/register', 'AuthController@register');
 
+//matches
+$router->get('/api/matches', 'MatchesController@getMatches', 'jugador');
+$router->post('/api/match', 'MatchesController@createMatch', 'jugador');
+
 // Admin System
 $router->get('/admin/usuarios', 'AdminController@AdminPage', 'admin');
 $router->get('/api/admin/users', 'AdminController@getAllUsers', 'admin');
 $router->put('/api/admin/user/[id]', 'AdminController@updateUser', 'admin');
 $router->delete('/api/admin/user/[id]', 'AdminController@deleteUser', 'admin');
 $router->delete('/api/admin/users', 'AdminController@deleteUsers', 'admin');
+
 // Application
 $router->get('/', 'AppController@MainPage');
 $router->get('/match/[match_id]', 'AppController@MatchPage');
@@ -50,7 +55,7 @@ $router->get('/match/[match_id]', 'AppController@MatchPage');
 //     Layout(GestionarUsuarios());
 // });
 
-
+session_start();
 if (!isset($_SESSION['role'])) {
     $_SESSION['role'] = 'guest';
 } 

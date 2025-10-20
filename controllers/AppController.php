@@ -12,7 +12,6 @@ class AppController{
   }
 
   public function MainPage(){
-    session_start();
     if(isset($_SESSION["role"])){
       require_once 'views/Home.php';
       Layout(Home());

@@ -17,7 +17,6 @@ class AuthController {
     public function LoginPage(){
         // This method renders a page, so it doesn't return JSON.
         // Session logic is still needed for page access control.
-        @session_start();
         if(isset($_SESSION["user_id"])){
             header("location:/");
         }else{
@@ -28,7 +27,6 @@ class AuthController {
 
     public function RegisterPage(){
         // This method renders a page, so it doesn't return JSON.
-        @session_start();
         if(isset($_SESSION["user_id"])){
             header("location:/");
         }else{
@@ -63,7 +61,6 @@ class AuthController {
         }
         
         if ($this->userModel->createUser($name, $email, $password, $role)) {
-            session_start();
             $_SESSION["name"] = $name;
             $_SESSION["email"] = $email;
             $_SESSION["role"] = $role; 
@@ -92,7 +89,6 @@ class AuthController {
         if ($user && password_verify($password, $user['password_hash'])) {
             // Note: In a stateless API, you would generate and return a token (e.g., JWT) here.
             // For now, we return user data and a success message.
-            session_start();
             // var_dump($user);
             $_SESSION["name"] = $user["name"];
             $_SESSION["email"] = $user["email"];
@@ -114,7 +110,6 @@ class AuthController {
         $this->logger->info('Request: POST /api/auth/logout');
         
 
-        session_start();
         session_unset();
         session_destroy();
         // In a stateless API, the client is responsible for destroying the token.
