@@ -3,7 +3,7 @@
  * @param {function} onVolver - Callback que se ejecuta al presionar el botón "Volver".
  * @returns {HTMLFormElement} El elemento del formulario.
  */
-function crearFormularioPartido(onVolver) {
+export function crearFormularioPartido(onVolver) {
   const form = document.createElement('form');
   form.className = 'space-y-4 p-6 bg-white rounded-xl shadow-lg border';
   form.id = 'newMatchForm';
