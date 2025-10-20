@@ -33,6 +33,13 @@ $router->post('/api/auth/register', 'AuthController@register');
 $router->get('/api/matches', 'MatchesController@getMatches', 'jugador');
 $router->post('/api/match', 'MatchesController@createMatch', 'jugador');
 
+$router->post('/api/match/players', 'MatchesController@getPlayers', 'jugador');
+$router->post('/api/match/players/mgmt', 'MatchesController@getManagerPlayers', 'jugador');
+
+$router->post('/api/match/request', 'MatchesController@userMatchRequest', 'jugador');
+$router->post('/api/match/request/accept', 'MatchesController@userMatchRequest', 'jugador');
+$router->post('/api/match/request/decline', 'MatchesController@userMatchRequest', 'jugador');
+
 // Admin System
 $router->get('/admin/usuarios', 'AdminController@AdminPage', 'admin');
 $router->get('/api/admin/users', 'AdminController@getAllUsers', 'admin');

@@ -22,7 +22,7 @@ class MatchModel {
     }
     
     public function getMatchById($id) {
-        $sql = "SELECT id FROM matches WHERE id = :id";
+        $sql = "SELECT * FROM matches WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
