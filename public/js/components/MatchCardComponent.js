@@ -18,16 +18,17 @@ export function createMatchCard(itemData) {
                 <div class="col-span-9">
                     <div class="flex flex-col justify-between h-full">
                         <div class="flex items-center text-sm text-gray-500 dark:text-neutral-400 mb-2">
-                            <span class="font-semibold">${sanitize(itemData.category)}</span>
-                            <span class="mx-2">📍</span>
-                            <span>${sanitize(itemData.location)}</span>
+                            <span class="text-3xl font-bold text-black">${sanitize(itemData.matchType) } </span>
+                            <span class=" mx-2 text-2xl font-semibold"> [${itemData.actualPlayers}/${sanitize(itemData.maxPlayers)}] </span>
+                            
                         </div>
                         <div class="flex items-baseline gap-x-3 my-1">
-                            <span class="text-3xl font-bold text-gray-800 dark:text-neutral-200">${sanitize(itemData.playerCount)}</span>
-                            <span class="text-xl font-semibold text-gray-700 dark:text-neutral-300">${sanitize(itemData.title)}</span>
+                            
+                            <span class="text-xl font-semibold text-gray-700 dark:text-neutral-300"><span class="mx-2">📍</span>
+                            <span>${sanitize(itemData.location)}</span></span>
                         </div>
                         <div class="flex items-center gap-x-4 text-sm text-gray-600 dark:text-neutral-400 mt-2">
-                            <span class="font-medium">${sanitize(itemData.matchType)}</span>
+                            <span class="font-medium"></span>
                             <span class="font-medium">${sanitize(itemData.dateTime)}</span>
                             <span class="px-2 py-1 text-xs font-bold rounded-md ${statusBgColor} ${statusTextColor}">
                                 ${sanitize(itemData.status)}

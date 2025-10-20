@@ -7,6 +7,7 @@ import { cardFactory } from './components/CardFactory.js';
  * @param {string} containerSelector - The CSS selector for the container element.
  */
 export function createCardList(items, containerSelector) {
+    console.log("createCardList@params[items]: ",items)
     const container = document.querySelector(containerSelector);
     if (!container) {
         console.error(`CardList Error: Container element '${containerSelector}' not found.`);
@@ -20,7 +21,11 @@ export function createCardList(items, containerSelector) {
     }
 
     // Create the HTML for each card and join them together.
-    const listContent = items.map(item => `<a href=/match/${item.matchId} >${cardFactory(item).outerHTML}</a>`).join('');
+    const listContent = items.map((item) => {
+        return `<a href=/match/${item.id} >
+        ${cardFactory(item).outerHTML}
+        </a>`
+    }).join('');
 
     // Render the list into the container.
     container.innerHTML = `

@@ -4,20 +4,116 @@ require_once 'models/UserModel.php';
 require_once 'db/Database.php';
 require_once 'lib/Logger.php';
 
+/**
+ * Define la estructura de un Rol.
+ * Pensado para ser escalable y poder ser almacenado en una base de datos a futuro.
+ */
+class Role {
+    public string $name;
+    /** @var Role[] */
+    public array $children;
+
+    public function __construct(string $name, array $children = []) {
+        $this->name = $name;
+        $this->children = $children;
+    }
+}
+
 class AuthController {
     private $userModel;
     private $logger;
+
+    /**
+     * Almacena los roles definidos en el sistema.
+     * @var Role[]
+     */
+    private static $roles;
+
+    /**
+     * Inicializa los roles del sistema de forma harcodeada.
+     * A futuro, esto podría leer los roles desde una base de datos.
+     */
+    private static function initializeRoles() {
+        if (isset(self::$roles)) {
+            return;
+        }
+
+        // Definición de roles
+        $jugador = new Role('jugador');
+        $admin = new Role('admin', [$jugador]); // El admin hereda los permisos de jugador
+
+        self::$roles = [
+            'admin' => $admin,
+            'jugador' => $jugador,
+        ];
+    }
 
     public function __construct() {
         $database = new Database();
         $this->userModel = new UserModel($database->getConnection());
         $this->logger = Logger::getInstance();
+        self::initializeRoles();
+    }
+
+    /**
+     * Verifica si un rol de usuario cumple con un rol requerido, considerando la jerarquía.
+     * Es una función auxiliar recursiva.
+     *
+     * @param Role $userRole El objeto Rol del usuario.
+     * @param string $requiredRoleName El nombre del rol que se requiere.
+     * @return bool
+     */
+    private static function hasPermission(Role $userRole, string $requiredRoleName): bool {
+        // Si el nombre del rol del usuario es el requerido, tiene permiso.
+        if ($userRole->name === $requiredRoleName) {
+            return true;
+        }
+
+        // Se revisa recursivamente en los roles que hereda (hijos).
+        foreach ($userRole->children as $childRole) {
+            if (self::hasPermission($childRole, $requiredRoleName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Punto de entrada para la verificación de roles desde el Router.
+     * Implementa un sistema RBAC simple (Role-Based Access Control).
+     *
+     * @param string|string[] $requiredRole El rol o roles requeridos por la ruta.
+     * @return bool
+     */
+    public static function checkRole($requiredRole): bool {
+        self::initializeRoles(); // Asegura que los roles estén cargados.
+        
+        $userRoleName = $_SESSION['role'] ?? null;
+
+        // Si el usuario no tiene un rol o el rol no es válido, no tiene acceso.
+        if (!$userRoleName || !isset(self::$roles[$userRoleName])) {
+            return false;
+        }
+
+        $userRole = self::$roles[$userRoleName];
+        
+        // Se convierte el rol requerido a un array para manejar tanto strings como arrays.
+        $requiredRoles = is_array($requiredRole) ? $requiredRole : [$requiredRole];
+
+        // Se comprueba si el usuario tiene al menos uno de los roles requeridos.
+        foreach ($requiredRoles as $reqRole) {
+            if (self::hasPermission($userRole, $reqRole)) {
+                return true; // Conceder acceso si cumple con al menos un rol.
+            }
+        }
+
+        return false; // Denegar acceso si no cumple con ninguno.
     }
 
     public function LoginPage(){
         // This method renders a page, so it doesn't return JSON.
         // Session logic is still needed for page access control.
-        @session_start();
         if(isset($_SESSION["user_id"])){
             header("location:/");
         }else{
@@ -28,7 +124,6 @@ class AuthController {
 
     public function RegisterPage(){
         // This method renders a page, so it doesn't return JSON.
-        @session_start();
         if(isset($_SESSION["user_id"])){
             header("location:/");
         }else{
@@ -63,7 +158,6 @@ class AuthController {
         }
         
         if ($this->userModel->createUser($name, $email, $password, $role)) {
-            session_start();
             $_SESSION["name"] = $name;
             $_SESSION["email"] = $email;
             $_SESSION["role"] = $role; 
@@ -92,7 +186,6 @@ class AuthController {
         if ($user && password_verify($password, $user['password_hash'])) {
             // Note: In a stateless API, you would generate and return a token (e.g., JWT) here.
             // For now, we return user data and a success message.
-            session_start();
             // var_dump($user);
             $_SESSION["name"] = $user["name"];
             $_SESSION["email"] = $user["email"];
@@ -114,7 +207,6 @@ class AuthController {
         $this->logger->info('Request: POST /api/auth/logout');
         
 
-        session_start();
         session_unset();
         session_destroy();
         // In a stateless API, the client is responsible for destroying the token.
@@ -126,3 +218,4 @@ class AuthController {
         // echo json_encode($response);
     }
 }
+

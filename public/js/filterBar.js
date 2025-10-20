@@ -22,12 +22,14 @@ export function createFilterBar(containerSelector, filterOptions, onFilterChange
         if (!options || options.length === 0) {
             return `<a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">No options available</a>`;
         }
-        return options.map(option => `
-            <label for="hs-dropdown-item-filter-${filterType}-${sanitize(option)}" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300">
-                <input type="checkbox" id="hs-dropdown-item-filter-${filterType}-${sanitize(option)}" name="${filterType}" value="${sanitize(option)}" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+        return options.map(option => {
+            const safeId = String(option).replace(/[^a-zA-Z0-9]/g, '');
+            return `
+            <label for="hs-dropdown-item-filter-${filterType}-${safeId}" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300">
+                <input type="checkbox" id="hs-dropdown-item-filter-${filterType}-${safeId}" name="${filterType}" value="${sanitize(option)}" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
                 ${sanitize(option)}
             </label>
-        `).join('');
+        `}).join('');
     };
 
     container.innerHTML = `
@@ -59,11 +61,11 @@ export function createFilterBar(containerSelector, filterOptions, onFilterChange
 
                 <!-- Cant. Jug. Filter Dropdown -->
                 <div class="hs-dropdown relative inline-flex [--placement:bottom-left]">
-                    <button id="hs-dropdown-cantjug" type="button" class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
+                    <button id="hs-dropdown-cantJug" type="button" class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
                         Cant. Jug.
                         <svg class="hs-dropdown-open:rotate-180 w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </button>
-                    <div class="hs-dropdown-menu w-48 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10 bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700" aria-labelledby="hs-dropdown-cantjug">
+                    <div class="hs-dropdown-menu w-48 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10 bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700" aria-labelledby="hs-dropdown-cantJug">
                         ${generateDropdownItems(filterOptions.cantJug, 'cantJug')}
                     </div>
                 </div>
@@ -83,7 +85,7 @@ export function createFilterBar(containerSelector, filterOptions, onFilterChange
             const selectedFilters = {};
             // Collect all selected filter values
             container.querySelectorAll('.hs-dropdown-menu').forEach(menu => {
-                // Extract filter type from aria-labelledby (e.g., 'horario', 'ubicacion', 'cantjug')
+                // Extract filter type from aria-labelledby (e.g., 'horario', 'ubicacion', 'cantJug')
                 const filterType = menu.getAttribute('aria-labelledby').replace('hs-dropdown-', '');
                 selectedFilters[filterType] = Array.from(menu.querySelectorAll(`input[name="${filterType}"]:checked`)).map(cb => cb.value);
             });
