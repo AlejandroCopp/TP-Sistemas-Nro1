@@ -78,22 +78,6 @@ class Router {
         $this->addRoute('DELETE', ...$args);
     }
 
-    public function checkRole($role) {
-        
-        $userRole = $_SESSION["role"];
-        
-        if (is_array($role)) {
-            foreach ($role as $item) {
-                if ($item === $userRole) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return $role === $userRole;
-        }
-    }
-
     // /**
     //  * Método interno para añadir una ruta a la "libreta de direcciones".
     //  * Convierte las rutas dinámicas (ej: /usuarios/[id]) en un formato técnico (expresión regular)
@@ -208,10 +192,13 @@ class Router {
                 if (is_string($handler) && strpos($handler, '@') !== false) {
                     list($controller, $method) = explode('@', $handler);
 
-                    if(!empty($route['role']) && !$this->checkRole($route['role'])){
-                        require_once "views/noAutorizado.php"; // o renderizar una vista - TODO: custom messages errors
-                        noAutorizado($route['role']);
-                        exit;
+                    if(!empty($route['role'])){
+                        require_once __DIR__ . '/../controllers/AuthController.php';
+                        if(!AuthController::checkRole($route['role'])){
+                            require_once "views/noAutorizado.php"; // o renderizar una vista - TODO: custom messages errors
+                            noAutorizado($route['role']);
+                            exit;
+                        }
                     }
 
                     // Arma la ruta al archivo del controlador.

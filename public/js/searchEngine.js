@@ -78,9 +78,11 @@ export function createSearchEngine(containerSelector) {
      * @returns {object} An object with arrays of unique values for each filter category.
      */
     const extractFilterOptions = (matches) => {
+        console.log("extractFilterOptions @input: ",matches)
         const horarios = [...new Set(matches.map(match => match.dateTime))].sort();
         const ubicaciones = [...new Set(matches.map(match => match.location))].sort();
         const cantJugs = [...new Set(matches.map(match => match.playerCount))].sort();
+        console.log("extractFilterOptions @output: ",{ horario: horarios, ubicacion: ubicaciones, cantJug: cantJugs })
         return { horario: horarios, ubicacion: ubicaciones, cantJug: cantJugs };
     };
 
@@ -109,7 +111,7 @@ export function createSearchEngine(containerSelector) {
                 );
             }
         }
-
+        
         createCardList(filteredMatches, cardListContainerSelector);
     };
 
@@ -135,7 +137,7 @@ export function createSearchEngine(containerSelector) {
         try {
             const fetchedMatches = await fetchMatches();
             allMatches = fetchedMatches; // Store all fetched matches
-
+            
             // Extract filter options and render the filter bar
             const filterOptions = extractFilterOptions(allMatches);
             createFilterBar(filterBarContainerSelector, filterOptions, handleFilterChange);
