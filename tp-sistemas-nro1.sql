@@ -73,6 +73,14 @@ CREATE TABLE `match_players` (
   `datetime_player_declined` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `match_players`
+--
+
+INSERT INTO `match_players` (`match_id`, `player_id`, `datetime_player_added`, `datetime_player_declined`) VALUES
+(1, 2, '2025-10-20 03:00:00', NULL),
+(1, 3, '2025-10-20 03:01:00', NULL);
+
 -- --------------------------------------------------------
 
 --

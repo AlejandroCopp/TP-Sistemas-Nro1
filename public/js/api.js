@@ -131,6 +131,11 @@ export async function fetchUsers() {
     return mockUsers;
 }
 
+
+// nombre
+// posicion de juego
+// equipo a o b
+
 /**
  * Fetches the list of notifications from the API.
  * @returns {Promise<Array<object>>} A promise that resolves to an array of notification objects.

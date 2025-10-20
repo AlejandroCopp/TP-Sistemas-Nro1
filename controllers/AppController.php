@@ -22,9 +22,10 @@ class AppController{
     }
     
   public function MatchPage($match_id){
+    // This logic is now handled by MatchesController@showMatchPage
     require_once 'views/Match.php';
-    Layout(MatchPage($match_id));
-
+    // The view needs a data array, so we pass an empty one to avoid errors.
+    Layout(MatchPage(['match'=>[], 'team_a'=>[], 'team_b'=>[]]));
   }
 }
 

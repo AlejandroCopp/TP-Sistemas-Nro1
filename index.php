@@ -42,7 +42,7 @@ $router->delete('/api/admin/users', 'AdminController@deleteUsers', 'admin');
 
 // Application
 $router->get('/', 'AppController@MainPage');
-$router->get('/match/[match_id]', 'AppController@MatchPage');
+$router->get('/match/[match_id]', 'MatchesController@showMatchPage');
 // // GET /registrarse
 // $router->get('/register', function() {
 //     require_once __DIR__ . '/views/register.php';
