@@ -1,7 +1,7 @@
-import { createCardList } from '../views/components/frontend/cardList.js';
-import { fetchMatches } from '../views/components/frontend/api.js';
-import { sanitize } from './utils.js';
-import { createFilterBar } from '../views/components/frontend/filterBar.js';
+import { createCardList } from './js/cardList.js';
+import { fetchMatches } from './js/api.js';
+import { sanitize } from './js/utils.js';
+import { createFilterBar } from './js/filterBar.js';
 
 /**
  * Creates and renders the search engine UI, including a search input and a "Join Match" button.
@@ -80,7 +80,7 @@ export function createSearchEngine(containerSelector) {
     const extractFilterOptions = (matches) => {
         const horarios = [...new Set(matches.map(match => match.dateTime))].sort();
         const ubicaciones = [...new Set(matches.map(match => match.location))].sort();
-        const cantJugs = [...new Set(matches.map(match => match.playerCount))].sort();
+        const cantJugs = [...new Set(matches.map(match => match.cantJug))].sort();
         return { horario: horarios, ubicacion: ubicaciones, cantJug: cantJugs };
     };
 
@@ -131,18 +131,21 @@ export function createSearchEngine(containerSelector) {
     }
 
     // Initial load: fetch all matches and set up filters
-    (async () => {
-        try {
-            const fetchedMatches = await fetchMatches();
-            allMatches = fetchedMatches; // Store all fetched matches
-
-            // Extract filter options and render the filter bar
-            const filterOptions = extractFilterOptions(allMatches);
-            createFilterBar(filterBarContainerSelector, filterOptions, handleFilterChange);
-
-            applyFiltersAndRender(); // Render all matches initially
-        } catch (error) {
-            console.error("Failed to fetch and render matches in SearchEngine:", error);
+        (async () => {
+            try {
+                const fetchedMatches = await fetchMatches();
+                // Add the 'cantJug' property, which is needed for filtering.
+                allMatches = fetchedMatches.map(match => ({
+                    ...match,
+                    cantJug: `${match.actualPlayers}/${match.maxPlayers}`
+                }));
+                
+                // Extract filter options and render the filter bar
+                const filterOptions = extractFilterOptions(allMatches);
+                createFilterBar(filterBarContainerSelector, filterOptions, handleFilterChange);
+    
+                applyFiltersAndRender(); // Render all matches initially
+            } catch (error) {            console.error("Failed to fetch and render matches in SearchEngine:", error);
             if (cardListContainer) {
                 cardListContainer.innerHTML = '<p class="text-center text-red-500">Error al cargar los partidos. Por favor, intente de nuevo más tarde.</p>';
             }
