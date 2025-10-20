@@ -22,25 +22,7 @@ class MatchModel {
     }
     
     public function getMatchById($id) {
-        $sql = "
-            SELECT 
-                m.id,
-                m.name,
-                m.location,
-                m.datetime_scheduled,
-                m.max_players,
-                m.image,
-                (SELECT COUNT(*) FROM match_players mp WHERE mp.match_id = m.id AND mp.datetime_player_added IS NOT NULL) AS actualPlayers,
-                CASE
-                    WHEN m.datetime_started IS NOT NULL AND m.datetime_finished IS NULL THEN 'Jugando'
-                    WHEN m.datetime_finished IS NOT NULL THEN 'Finalizado'
-                    ELSE 'Programado'
-                END AS status
-            FROM 
-                matches m
-            WHERE
-                m.id = :id;
-        ";
+        $sql = "SELECT * FROM matches WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();

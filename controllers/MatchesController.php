@@ -25,8 +25,9 @@ class MatchesController {
         $response = [];
         
         foreach ($matches as $match) {
-            $scheduledTimestamp = strtotime($match['datetime_scheduled']);
+            $actualPlayers = $this->MatchPlayerModel->countActivePlayersByMatchId($match['id']);
 
+            $scheduledTimestamp = strtotime($match['datetime_scheduled']);
             $now = time();
             if ($now > $scheduledTimestamp) {
                 $status = 'Jugando';
@@ -41,12 +42,35 @@ class MatchesController {
                 'matchType' => $match['name'], 
                 'location' => $match['location'],
                 'scheduled' => strtotime($match['datetime_scheduled']),
-                'status' => $status
+                'status' => $status,
+                'maxPlayers ' => $match['max_players'],
+                'actualPlayers ' => $actualPlayers
             ];
-        }
+        } // nombre, posicion, equipo
 
         header('Content-Type: application/json');
         echo json_encode($response);
+    }
+
+    public function getPlayers() {
+        $matchId = $_POST['matchId'];
+
+        $actualPlayers = $this->MatchPlayerModel->getAllActivePlayersByMatchId($matchId);
+
+        header('Content-Type: application/json');
+        echo json_encode($actualPlayers);
+    }
+
+    public function getManagerPlayers(){
+        $matchId = $_POST['matchId'];
+
+        $match = $this->matchModel->getMatchById($matchId);
+        if ($match['manager_id'] === $_SESSION['id']){
+            $this->MatchPlayerModel->getPendingPlayersByMatchId($_POST['matchId']);
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }
     }
 
     public function createMatch(){
@@ -59,8 +83,21 @@ class MatchesController {
         $datetimeScheduledDb = (new DateTime())->setTimestamp($datetimeScheduled)->format('Y-m-d H:i:s');
 
         $this->matchModel->createMatch($name, $location, $datetimeScheduledDb, $_SESSION["id"], $max_players);
+    }
 
-        // $name, $location, $datetimeScheduled, $manager_id, $max_players, $image = null
+    public function userMatchRequest(){
+        $matchId = $_POST['matchId'];
+        $position = $_POST['position'];
+        $userId = $_SESSION['id'];
+
+        if (!$this->MatchPlayerModel->userAlreadyRequested($matchId, $userId)) {
+            $this->MatchPlayerModel->requestUserMatch($matchId, $position, $userId);
+            echo json_encode(['success' => true, 'message' => 'Solicitud enviada']);
+            return;
+
+        }
+
+        echo json_encode(['success' => false, 'message' => 'Ya existe una solicitud para este partido']);
     }
 
     public function showMatchPage($match_id) {
