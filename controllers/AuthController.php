@@ -158,6 +158,7 @@ class AuthController {
         }
         
         if ($this->userModel->createUser($name, $email, $password, $role)) {
+            $_SESSION["id"] = $this->userModel->getUserByEmail($email);
             $_SESSION["name"] = $name;
             $_SESSION["email"] = $email;
             $_SESSION["role"] = $role; 

@@ -41,7 +41,7 @@ class MatchPlayerModel {
     
     public function getPendingPlayersByMatchId($matchId) {
         //$sql = "SELECT player_id FROM match_players WHERE match_id = :match_id AND datetime_player_added IS NULL AND datetime_player_declined IS NULL";
-        $sql = "SELECT u.id, u.name, mp.position FROM match_players mp JOIN users u ON mp.player_id = u.id WHERE mp.match_id = :match_id AND mp.datetime_player_declined IS NULL";
+        $sql = "SELECT u.id, u.name, mp.position, mp.team FROM match_players mp JOIN users u ON mp.player_id = u.id WHERE mp.match_id = :match_id AND mp.datetime_player_declined IS NULL";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':match_id', $matchId);
         $stmt->execute();

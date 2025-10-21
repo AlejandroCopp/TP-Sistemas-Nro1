@@ -3,6 +3,7 @@
 require_once 'models/UserModel.php';
 require_once 'models/MatchModel.php';
 require_once 'models/MatchPlayerModel.php';
+require_once 'views/Match.php';
 
 require_once 'db/Database.php';
 require_once 'lib/Logger.php';
@@ -140,7 +141,6 @@ class MatchesController {
         ];
 
         // Render the view, passing the data to it
-        require_once 'views/Match.php';
         // The Layout function will wrap the page content with the header and footer
         Layout(MatchPage($data));
     }

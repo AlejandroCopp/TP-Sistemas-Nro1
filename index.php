@@ -31,6 +31,7 @@ $router->post('/api/auth/register', 'AuthController@register');
 
 //matches
 $router->get('/match/[match_id]', 'MatchesController@showMatchPage');
+$router->get('/match/[match_id]/waitlist', 'MatchPlayerController@WaitListPage', 'jugador');
 
 $router->get('/api/matches', 'MatchesController@getMatches', 'jugador');
 $router->post('/api/match', 'MatchesController@createMatch', 'jugador');

@@ -3,6 +3,7 @@
 require_once 'models/UserModel.php';
 require_once 'models/MatchModel.php';
 require_once 'models/MatchPlayerModel.php';
+require_once "views/Waitlist.php";
 
 require_once 'db/Database.php';
 require_once 'lib/Logger.php';
@@ -18,6 +19,12 @@ class MatchPlayerController {
         $this->userModel = new UserModel($database->getConnection());
         $this->matchModel = new MatchModel($database->getConnection());
         $this->MatchPlayerModel = new MatchPlayerModel($database->getConnection());
+    }
+
+    public function WaitListPage($Match_id){
+        $pendingPlayers = $this->MatchPlayerModel->getPendingPlayersByMatchId($Match_id);
+        $match = $this->matchModel->getMatchById($Match_id);
+        Layout(Waitlist(['pendingPlayers' => $pendingPlayers, 'matchId' => $Match_id, 'matchType' => $match['name']]));
     }
 
     public function acceptRequestPlayer() {

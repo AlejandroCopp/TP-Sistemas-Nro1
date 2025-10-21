@@ -1,14 +1,19 @@
 <?php
+require_once 'models/UserModel.php';
+require_once 'db/Database.php';
 
 function MatchPage($data) {
+    $database = new Database();
+    $userModel = new UserModel($database->getConnection());
     $match = $data['match'];
     $team_a_players = $data['team_a'];
     $team_b_players = $data['team_b'];
     $team_size = $match['max_players'] / 2;
-
+    
     // Prepare match data for JS
     $timestamp = is_numeric($match['datetime_scheduled']) ? $match['datetime_scheduled'] : strtotime($match['datetime_scheduled']);
-
+    $user_id = $userModel->getUserByEmail($_SESSION["email"],"id");
+    
     $match_for_js = [
         'id' => $match['id'],
         'matchType' => $match['name'],
@@ -18,7 +23,7 @@ function MatchPage($data) {
         'actualPlayers' => count($team_a_players) + count($team_b_players),
         'imageUrl' => $match['image_url']
     ];
-
+    
     // Prepare team A data for JS
     $team_a_for_js = [];
     foreach ($team_a_players as $player) {
@@ -27,7 +32,7 @@ function MatchPage($data) {
     for ($i = count($team_a_players); $i < $team_size; $i++) {
         $team_a_for_js[] = ['tipo' => 'playerSlot']; // Empty slot
     }
-
+    
     // Prepare team B data for JS
     $team_b_for_js = [];
     foreach ($team_b_players as $player) {
@@ -36,11 +41,11 @@ function MatchPage($data) {
     for ($i = count($team_b_players); $i < $team_size; $i++) {
         $team_b_for_js[] = ['tipo' => 'playerSlot']; // Empty slot
     }
-
-    $is_manager = isset($_SESSION['id']) && $match['manager_id'] == $_SESSION['id'];
+    $is_manager = isset($user_id) && $match['manager_id'] == $user_id["id"];
     $join_button_text = $is_manager ? 'Ver Postulaciones' : 'Unirse al Partido';
-
+    
     ob_start(); // Start output buffering
+
 ?>
 
 <div class="max-w-sm mx-auto bg-white dark:bg-neutral-900 rounded-b-3xl shadow-lg font-sans">
