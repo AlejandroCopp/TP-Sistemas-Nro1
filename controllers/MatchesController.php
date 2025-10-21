@@ -117,13 +117,14 @@ class MatchesController {
         // Fetch full details for each player
         $players = [];
         foreach ($player_id_rows as $row) {
-            $player_info = $this->userModel->getUserById($row['player_id']);
+            $player_info = $this->userModel->getUserById($row['id']);
             if ($player_info) {
                 $players[] = $player_info;
             }
         }
-
+        
         // Divide players into two teams
+        var_dump(json_encode($player_info));
         $team_size = $match['max_players'] / 2;
         $team_a = array_slice($players, 0, $team_size);
         $team_b = array_slice($players, $team_size, $team_size);

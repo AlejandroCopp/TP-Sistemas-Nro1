@@ -30,6 +30,8 @@ $router->post('/api/auth/login', 'AuthController@login');
 $router->post('/api/auth/register', 'AuthController@register');
 
 //matches
+$router->get('/match/[match_id]', 'MatchesController@showMatchPage');
+
 $router->get('/api/matches', 'MatchesController@getMatches', 'jugador');
 $router->post('/api/match', 'MatchesController@createMatch', 'jugador');
 
@@ -49,7 +51,6 @@ $router->delete('/api/admin/users', 'AdminController@deleteUsers', 'admin');
 
 // Application
 $router->get('/', 'AppController@MainPage');
-$router->get('/match/[match_id]', 'MatchesController@showMatchPage');
 // // GET /registrarse
 // $router->get('/register', function() {
 //     require_once __DIR__ . '/views/register.php';
