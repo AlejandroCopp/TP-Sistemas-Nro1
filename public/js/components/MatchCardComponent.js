@@ -5,6 +5,11 @@ import { sanitize } from '../utils.js';
  * This component is self-contained and only responsible for displaying the data it receives.
  * @param {object} itemData - The data for the match.
  * @returns {string} The HTML string for the item card.
+ * 
+ * itemData = {
+ * 
+ * }
+ * 
  */
 export function createMatchCard(itemData) {
     // Determine status badge colors based on the match status

@@ -39,7 +39,7 @@ class MatchesController {
 
             $response[] = [
                 'id' => $match['id'],
-                'name' => $match['name'], 
+                'matchType' => $match['name'], 
                 'location' => $match['location'],
                 'scheduled' => strtotime($match['datetime_scheduled']),
                 'status' => $status,

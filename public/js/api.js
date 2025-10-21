@@ -24,12 +24,12 @@ export async function fetchMatches(searchTerm = '') {
         // mockMatches = (await fetch("/api/matches")).json();
         mockMatches = [
             {
-                id: 1,
                 tipo: 'partido',
-                location: 'callecanchita 123, palermo', 
-                maxPlayers: 10,
-                actualPlayers: 8,
+                id: 1,
                 matchType: 'Equipo A vs Equipo B',
+                location: 'callecanchita 123, palermo', 
+                maxPlayers: 10, // set from frontend
+                actualPlayers: 8, // set from frontend
                 dateTime: '2025-10-20 18:00:00',
                 status: 'Jugando',
                 imageUrl: '/public/CanchaImage.png'
