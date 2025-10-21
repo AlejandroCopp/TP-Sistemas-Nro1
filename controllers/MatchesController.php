@@ -76,20 +76,21 @@ class MatchesController {
     }
 
     public function createMatch(){
-        $name = $_POST['name'];
+        //$name = $_POST['name'];
+        $team_name1 = $_POST['team_name1'];
+        $team_name2 = $_POST['team_name2'];
         $location = $_POST['location'];
-        $id_user = $this->userModel->getUserByEmail($_SESSION["email"]);
+        $id_user = $_SESSION["id"]; //$this->userModel->getUserByEmail($_SESSION["email"]);
         $datetimeScheduled = $_POST['datetimeScheduled'];
         $max_players = $_POST['maxPlayers'];
         //$image = $_POST['image']
         $datetimeScheduledDb = (new DateTime())->setTimestamp($datetimeScheduled)->format('Y-m-d H:i:s');
 
-        $newMatch = $this->matchModel->createMatch($name, $location, $datetimeScheduledDb, $id_user["id"], $max_players);
+        $newMatch = $this->matchModel->createMatch($team_name1, $team_name2, $location, $datetimeScheduledDb, $id_user, $max_players);
 
-        var_dump(json_encode(
-            $newMatch
-        ));
-
+        //var_dump(json_encode(
+        //    $newMatch
+        //));
     }
 
     // public function userMatchRequest(){

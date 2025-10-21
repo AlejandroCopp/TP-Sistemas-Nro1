@@ -39,14 +39,15 @@ class MatchModel {
         return $match;
     }
 
-    public function createMatch($name, $location, $datetimeScheduled, $manager_id, $max_players, $image = null){
+    public function createMatch($team_name1, $team_name2, $location, $datetimeScheduled, $manager_id, $max_players, $image = null){
         $datetimeNow = date('Y-m-d H:i:s');
 
-        var_dump($manager_id);
+        //var_dump($manager_id);
 
-        $sql = "INSERT INTO matches (name, location, datetime_created, datetime_scheduled, manager_id, max_players, image) VALUES (:name, :location, :datetime_created, :datetime_scheduled, :manager_id, :max_players, :image)";
+        $sql = "INSERT INTO matches (team_name1, team_name2, location, datetime_created, datetime_scheduled, manager_id, max_players, image) VALUES (:team_name1, :team_name2, :location, :datetime_created, :datetime_scheduled, :manager_id, :max_players, :image)";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':team_name1', $team_name1);
+        $stmt->bindParam(':team_name2', $team_name2);
         $stmt->bindParam(':location', $location);
         $stmt->bindParam(':datetime_created', $datetimeNow);
         $stmt->bindParam(':datetime_scheduled', $datetimeScheduled);

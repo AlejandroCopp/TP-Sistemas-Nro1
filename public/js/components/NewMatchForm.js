@@ -9,7 +9,8 @@ function renderForm() {
         <form id="newMatchForm" class="space-y-4 p-6 bg-white rounded-xl shadow-lg border">
             <h2 class="text-xl font-bold text-gray-800">Crear Nuevo Partido</h2>
             <div id="form-feedback"></div>
-            ${InputField('Nombre del Partido', 'text', 'name', 'name', 'Ej: Fútbol de los Martes')}
+            ${InputField('Nombre del equipo 1', 'text', 'team_name1', 'team_name1', 'Ej: Boca')}
+            ${InputField('Nombre del equipo 2', 'text', 'team_name2', 'team_name2', 'Ej: River Plate')}
             ${InputField('Ubicación', 'text', 'location', 'location', 'Ej: Cancha "El Potrero"')}
             ${InputField('Fecha y Hora', 'datetime-local', 'datetimeScheduled', 'datetimeScheduled')}
             ${SelectField('Cantidad de Jugadores', 'maxPlayers', 'maxPlayers', tiposDeFutbol)}

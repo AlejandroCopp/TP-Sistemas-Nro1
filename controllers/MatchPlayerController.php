@@ -55,12 +55,11 @@ class MatchPlayerController {
         }
     }
 
-
     public function userMatchRequest(){
         $matchId = $_POST['matchId'];
         $position = $_POST['position'];
         $team = $_POST['team'];
-        $userId = $this->userModel->getUserByEmail($_SESSION["email"])["id"];
+        $userId = $_SESSION["id"];//$this->userModel->getUserByEmail($_SESSION["email"])["id"];
 
         if (!in_array($team, ['1', '2'])) {
             echo json_encode(['success' => false, 'message' => 'ID de equipo inválido. Debe ser 1 o 2.']);

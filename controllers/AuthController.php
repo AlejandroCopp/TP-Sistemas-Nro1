@@ -158,7 +158,7 @@ class AuthController {
         }
         
         if ($this->userModel->createUser($name, $email, $password, $role)) {
-            $_SESSION["id"] = $this->userModel->getUserByEmail($email);
+            $_SESSION["id"] = $this->userModel->getUserByEmail($email)['id'];
             $_SESSION["name"] = $name;
             $_SESSION["email"] = $email;
             $_SESSION["role"] = $role; 
@@ -188,6 +188,7 @@ class AuthController {
             // Note: In a stateless API, you would generate and return a token (e.g., JWT) here.
             // For now, we return user data and a success message.
             // var_dump($user);
+            $_SESSION["id"] = $user["id"];
             $_SESSION["name"] = $user["name"];
             $_SESSION["email"] = $user["email"];
             $_SESSION["role"] = $user["role"];

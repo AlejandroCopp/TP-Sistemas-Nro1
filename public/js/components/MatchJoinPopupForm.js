@@ -1,10 +1,10 @@
 import { Popup } from './popup/Popup.js';
 
 export class MatchJoinPopupForm extends Popup {
-    constructor(matchId, onSubmit, matchType) {
+    constructor(matchId, team_name1, team_name2, onSubmit, matchType) {
         let teams = [
-            { id: '1', name: 'Equipo 1' },
-            { id: '2', name: 'Equipo 2' }
+            { id: '1', name: 'Equipo ' + team_name1 },
+            { id: '2', name: 'Equipo ' + team_name2 }
         ];
 
         const regex = /^(.*) vs (.*)$/;
