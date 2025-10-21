@@ -78,7 +78,7 @@ class MatchPlayerModel {
     }
 
     public function requestUserMatch($matchId, $position, $team, $playerId) {
-        $sql = "INSERT INTO match_players (match_id, position, team, player_id) VALUES (:match_id, :position, :team :player_id)";
+        $sql = "INSERT INTO match_players (match_id, position, team, player_id) VALUES (:match_id, :position, :team, :player_id)";
         $stmt = $this->db->prepare($sql);
         
         $stmt->execute([

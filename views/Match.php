@@ -16,6 +16,8 @@ function MatchPage($data) {
     
     $match_for_js = [
         'id' => $match['id'],
+        'team_name1' => $match['team_name1'],
+        'team_name2' => $match['team_name2'],
         'matchType' => $match['name'],
         'location' => $match['location'],
         'scheduled' => $timestamp, // Pass the raw timestamp
@@ -134,7 +136,7 @@ function MatchPage($data) {
                     alert.open();
                 }
             };
-            const joinFormPopup = new MatchJoinPopupForm(matchData.id, handleJoinMatch, matchData.matchType);
+            const joinFormPopup = new MatchJoinPopupForm(matchData.id, matchData.team_name1, matchData.team_name2, handleJoinMatch, matchData.matchType);
             joinFormPopup.open();
         });
     }

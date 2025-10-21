@@ -55,15 +55,15 @@ class MatchPlayerController {
         }
     }
 
-
     public function userMatchRequest(){
         $matchId = $_POST['matchId'];
         $position = $_POST['position'];
         $team = $_POST['team'];
-        $userId = $this->userModel->getUserByEmail($_SESSION["email"])["id"];
+        $userId = $_SESSION["id"];
 
-        if (!in_array($team, ['1', '2'])) {
-            echo json_encode(['success' => false, 'message' => 'ID de equipo inválido. Debe ser 1 o 2.']);
+        $teamNames = $this->matchModel->getAllTeamNamesById($matchId);
+        if (!in_array($team, $teamNames)) {
+            echo json_encode(['success' => false, 'message' => 'ID de equipo inválido.']);
             return;
         }
 
@@ -71,7 +71,6 @@ class MatchPlayerController {
             $this->MatchPlayerModel->requestUserMatch($matchId, $position, $team, $userId);
             echo json_encode(['success' => true, 'message' => 'Solicitud enviada']);
             return;
-
         }
 
         echo json_encode(['success' => false, 'message' => 'Ya existe una solicitud para este partido']);
