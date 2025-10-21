@@ -66,7 +66,7 @@ class MatchesController {
 
         $match = $this->matchModel->getMatchById($matchId);
         if ($match['manager_id'] === $_SESSION['id']){
-            $this->MatchPlayerModel->getPendingPlayersByMatchId($_POST['matchId']);
+            $response = $this->MatchPlayerModel->getPendingPlayersByMatchId($_POST['matchId']);
 
             header('Content-Type: application/json');
             echo json_encode($response);
@@ -84,21 +84,5 @@ class MatchesController {
 
         $this->matchModel->createMatch($name, $location, $datetimeScheduledDb, $_SESSION["id"], $max_players);
     }
-
-    public function userMatchRequest(){
-        $matchId = $_POST['matchId'];
-        $position = $_POST['position'];
-        $userId = $_SESSION['id'];
-
-        if (!$this->MatchPlayerModel->userAlreadyRequested($matchId, $userId)) {
-            $this->MatchPlayerModel->requestUserMatch($matchId, $position, $userId);
-            echo json_encode(['success' => true, 'message' => 'Solicitud enviada']);
-            return;
-
-        }
-
-        echo json_encode(['success' => false, 'message' => 'Ya existe una solicitud para este partido']);
-    }
-
 
 }
