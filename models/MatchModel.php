@@ -42,6 +42,8 @@ class MatchModel {
     public function createMatch($name, $location, $datetimeScheduled, $manager_id, $max_players, $image = null){
         $datetimeNow = date('Y-m-d H:i:s');
 
+        var_dump($manager_id);
+
         $sql = "INSERT INTO matches (name, location, datetime_created, datetime_scheduled, manager_id, max_players, image) VALUES (:name, :location, :datetime_created, :datetime_scheduled, :manager_id, :max_players, :image)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':name', $name);

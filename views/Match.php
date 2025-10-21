@@ -79,6 +79,7 @@ function MatchPage($data) {
     import { CardList } from '/public/js/components/CardList.js';
     import { SharePopup } from '/public/js/components/SharePopup.js';
     import { AlertPopup } from '/public/js/components/popup/AlertPopup.js';
+    import { MatchJoinPopupForm } from '/public/js/components/MatchJoinPopupForm.js';
 
     const matchData = <?php echo json_encode($match_for_js); ?>;
     
@@ -103,36 +104,33 @@ function MatchPage($data) {
     // Check if the button text is 'Unirse al Partido' (not 'Ver Postulaciones')
     if (joinBtn && joinBtn.textContent.trim() === 'Unirse al Partido') {
         joinBtn.addEventListener('click', async () => {
-            const position = prompt('Por favor, ingresa la posición en la que deseas jugar:');
-            if (!position) {
-                // User cancelled the prompt
-                return;
-            }
+            const handleJoinMatch = async (matchId, position, team) => {
+                const formData = new FormData();
+                formData.append('matchId', matchId);
+                formData.append('position', position);
+                formData.append('team', team);
 
-            const formData = new FormData();
-            formData.append('matchId', matchData.id);
-            formData.append('position', position);
+                try {
+                    const response = await fetch('/api/match/request', {
+                        method: 'POST',
+                        body: new URLSearchParams(formData)
+                    });
 
-            try {
-                const response = await fetch('/api/match/request', {
-                    method: 'POST',
-                    body: new URLSearchParams(formData)
-                });
+                    const result = await response.json();
 
-                const result = await response.json();
+                    if (!response.ok || !result.success) {
+                        throw new Error(result.message || 'No se pudo enviar la solicitud.');
+                    }
 
-                if (!response.ok || !result.success) {
-                    // If response.ok is false or result.success is false
-                    throw new Error(result.message || 'No se pudo enviar la solicitud.');
+                    window.location.href = '/waitlist/';
+
+                } catch (error) {
+                    const alert = new AlertPopup(error.message);
+                    alert.open();
                 }
-
-                // Success
-                window.location.href = '/waitlist/';
-
-            } catch (error) {
-                const alert = new AlertPopup(error.message);
-                alert.open();
-            }
+            };
+            const joinFormPopup = new MatchJoinPopupForm(matchData.id, handleJoinMatch, matchData.matchType);
+            joinFormPopup.open();
         });
     }
 </script>

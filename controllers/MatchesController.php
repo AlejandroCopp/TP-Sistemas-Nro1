@@ -83,7 +83,12 @@ class MatchesController {
         //$image = $_POST['image']
         $datetimeScheduledDb = (new DateTime())->setTimestamp($datetimeScheduled)->format('Y-m-d H:i:s');
 
-        $this->matchModel->createMatch($name, $location, $datetimeScheduledDb, $id_user, $max_players);
+        $newMatch = $this->matchModel->createMatch($name, $location, $datetimeScheduledDb, $id_user["id"], $max_players);
+
+        var_dump(json_encode(
+            $newMatch
+        ));
+
     }
 
     // public function userMatchRequest(){
