@@ -67,7 +67,7 @@ class MatchesController {
 
         $match = $this->matchModel->getMatchById($matchId);
         if ($match['manager_id'] === $_SESSION['id']){
-            $this->MatchPlayerModel->getPendingPlayersByMatchId($_POST['matchId']);
+            $response = $this->MatchPlayerModel->getPendingPlayersByMatchId($_POST['matchId']);
 
             header('Content-Type: application/json');
             echo json_encode($response);
@@ -86,6 +86,7 @@ class MatchesController {
         $this->matchModel->createMatch($name, $location, $datetimeScheduledDb, $_SESSION["id"], $max_players);
     }
 
+    /*
     public function userMatchRequest(){
         $matchId = $_POST['matchId'];
         $position = $_POST['position'];
@@ -139,5 +140,7 @@ class MatchesController {
         // The Layout function will wrap the page content with the header and footer
         Layout(MatchPage($data));
     }
+    */
 
+    
 }
