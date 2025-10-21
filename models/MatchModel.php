@@ -20,6 +20,15 @@ class MatchModel {
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);
     }
+
+    public function getAllTeamNamesById($id){
+        $sql = "SELECT team_name1, team_name2 FROM matches WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $match = $stmt->fetch(PDO::FETCH_NUM);
+        return $match;
+    }
     
     public function getMatchById($id) {
         $sql = "SELECT * FROM matches WHERE id = :id";

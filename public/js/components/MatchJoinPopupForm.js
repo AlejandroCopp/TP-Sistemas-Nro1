@@ -3,8 +3,8 @@ import { Popup } from './popup/Popup.js';
 export class MatchJoinPopupForm extends Popup {
     constructor(matchId, team_name1, team_name2, onSubmit, matchType) {
         let teams = [
-            { id: '1', name: 'Equipo ' + team_name1 },
-            { id: '2', name: 'Equipo ' + team_name2 }
+            { id: '1', name: team_name1 }, // 'Equipo ' +
+            { id: '2', name: team_name2 }
         ];
 
         const regex = /^(.*) vs (.*)$/;
@@ -17,7 +17,7 @@ export class MatchJoinPopupForm extends Popup {
             ];
         }
 
-        const teamOptions = teams.map(team => `<option value="${team.id}">${team.name}</option>`).join('');
+        const teamOptions = teams.map(team => `<option value="${team.name}">${team.name}</option>`).join('');
         const contentHtml = `
             <form id="match-join-form" class="space-y-4">
                 <div>
