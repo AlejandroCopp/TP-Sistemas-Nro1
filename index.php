@@ -38,9 +38,9 @@ $router->post('/api/match', 'MatchesController@createMatch', 'jugador');
 $router->post('/api/match/players', 'MatchesController@getPlayers', 'jugador');
 $router->post('/api/match/players/mgmt', 'MatchesController@getManagerPlayers', 'jugador');
 
-$router->post('/api/match/request', 'MatchesController@userMatchRequest', 'jugador');
-$router->post('/api/match/request/accept', 'MatchesController@userMatchRequest', 'jugador');
-$router->post('/api/match/request/decline', 'MatchesController@userMatchRequest', 'jugador');
+$router->post('/api/match/request', 'MatchPlayerController@userMatchRequest', 'jugador');
+$router->post('/api/match/request/accept', 'MatchPlayerController@acceptRequestPlayer', 'jugador');
+$router->post('/api/match/request/decline', 'MatchPlayerController@declineRequestPlayer', 'jugador');
 
 // Admin System
 $router->get('/admin/usuarios', 'AdminController@AdminPage', 'admin');

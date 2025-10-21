@@ -32,7 +32,7 @@ class MatchPlayerModel {
     }
 
     public function getAllActivePlayersByMatchId($matchId) {
-        $sql = "SELECT u.id, u.name FROM match_players mp JOIN users u ON mp.player_id = u.id WHERE mp.match_id = :match_id AND mp.datetime_player_added IS NOT NULL";
+        $sql = "SELECT u.id, u.name, mp.position FROM match_players mp JOIN users u ON mp.player_id = u.id WHERE mp.match_id = :match_id AND mp.datetime_player_added IS NOT NULL";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':match_id', $matchId);
         $stmt->execute();
@@ -41,11 +41,11 @@ class MatchPlayerModel {
     
     public function getPendingPlayersByMatchId($matchId) {
         //$sql = "SELECT player_id FROM match_players WHERE match_id = :match_id AND datetime_player_added IS NULL AND datetime_player_declined IS NULL";
-        $sql = "SELECT u.id, u.name FROM match_players mp JOIN users u ON mp.player_id = u.id WHERE mp.match_id = :match_id AND mp.datetime_player_declined IS NULL";
+        $sql = "SELECT u.id, u.name, mp.position FROM match_players mp JOIN users u ON mp.player_id = u.id WHERE mp.match_id = :match_id AND mp.datetime_player_declined IS NULL";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':match_id', $matchId);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function userAlreadyRequested($matchId, $userId){
@@ -60,7 +60,7 @@ class MatchPlayerModel {
     }
 
     public function acceptPlayer($matchId, $playerId) {
-        $sql = "UPDATE match_players SET datetime_player_added = NOW(), datetime_player_declined = NULL WHERE match_id = :match_id AND player_id = :player_id";
+        $sql = "UPDATE match_players SET datetime_player_added = NOW(), datetime_player_declined = NULL WHERE match_id = :match_id AND player_id = :player_id AND datetime_player_declined IS NULL";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':match_id' => $matchId,
