@@ -1,4 +1,4 @@
-import { sanitize } from './utils.js';
+import { sanitize } from '../utils.js';
 
 /**
  * Creates and renders a filter bar with dropdowns for various match properties.

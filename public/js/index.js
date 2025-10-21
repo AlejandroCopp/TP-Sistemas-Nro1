@@ -3,7 +3,7 @@
  * @description Main entry point for the frontend application.
  * It initializes the main components.
  */
-import { createSearchEngine } from './searchEngine.js';
+import { createSearchEngine } from './components/searchEngine.js';
 
 /**
  * Main application function.

@@ -42,7 +42,7 @@ class MatchesController {
                 'id' => $match['id'],
                 'matchType' => $match['name'], 
                 'location' => $match['location'],
-                'scheduled' => strtotime($match['datetime_scheduled']),
+                'scheduled' => $match['datetime_scheduled'],
                 'status' => $status,
                 'maxPlayers' => $match['max_players'],
                 'actualPlayers' => $actualPlayers
@@ -77,30 +77,29 @@ class MatchesController {
     public function createMatch(){
         $name = $_POST['name'];
         $location = $_POST['location'];
+        $id_user = $this->userModel->getUserByEmail($_SESSION["email"]);
         $datetimeScheduled = $_POST['datetimeScheduled'];
         $max_players = $_POST['maxPlayers'];
         //$image = $_POST['image']
-
         $datetimeScheduledDb = (new DateTime())->setTimestamp($datetimeScheduled)->format('Y-m-d H:i:s');
 
-        $this->matchModel->createMatch($name, $location, $datetimeScheduledDb, $_SESSION["id"], $max_players);
+        $this->matchModel->createMatch($name, $location, $datetimeScheduledDb, $id_user, $max_players);
     }
 
-    /*
-    public function userMatchRequest(){
-        $matchId = $_POST['matchId'];
-        $position = $_POST['position'];
-        $userId = $_SESSION['id'];
+    // public function userMatchRequest(){
+    //     $matchId = $_POST['matchId'];
+    //     $position = $_POST['position'];
+    //     $userId = $_SESSION['id'];
 
-        if (!$this->MatchPlayerModel->userAlreadyRequested($matchId, $userId)) {
-            $this->MatchPlayerModel->requestUserMatch($matchId, $position, $userId);
-            echo json_encode(['success' => true, 'message' => 'Solicitud enviada']);
-            return;
+    //     if (!$this->MatchPlayerModel->userAlreadyRequested($matchId, $userId)) {
+    //         $this->MatchPlayerModel->requestUserMatch($matchId, $position, $userId);
+    //         echo json_encode(['success' => true, 'message' => 'Solicitud enviada']);
+    //         return;
 
-        }
+    //     }
 
-        echo json_encode(['success' => false, 'message' => 'Ya existe una solicitud para este partido']);
-    }
+    //     echo json_encode(['success' => false, 'message' => 'Ya existe una solicitud para este partido']);
+    // }
 
     public function showMatchPage($match_id) {
         $match = $this->matchModel->getMatchById($match_id);
@@ -125,7 +124,6 @@ class MatchesController {
         }
         
         // Divide players into two teams
-        var_dump(json_encode($player_info));
         $team_size = $match['max_players'] / 2;
         $team_a = array_slice($players, 0, $team_size);
         $team_b = array_slice($players, $team_size, $team_size);
@@ -141,7 +139,6 @@ class MatchesController {
         // The Layout function will wrap the page content with the header and footer
         Layout(MatchPage($data));
     }
-    */
 
     
 }

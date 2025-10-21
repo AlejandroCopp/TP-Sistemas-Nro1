@@ -17,7 +17,7 @@
   </html> -->
    
 <?php 
-function Home() { 
+function Home() {
 ?>
     <div class="flex justify-center items-center my-4">
         <h1 class="text-2xl font-bold text-center">Bienvenido <?php echo $_SESSION["role"]." ". $_SESSION["name"];?></h1>

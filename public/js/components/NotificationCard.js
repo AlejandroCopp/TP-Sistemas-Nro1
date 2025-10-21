@@ -3,7 +3,7 @@
  * @param {object} contenido - El objeto de datos para la tarjeta.
  * @returns {string} El HTML de la tarjeta.
  */
-export function createNotificationCard(contenido) {
+export function NotificationCard(contenido) {
   const { mensaje = '', hora = '', icono = '' } = contenido;
 
   const iconoHtml = icono ? `<i class="${icono} text-gray-400 text-xl ml-3"></i>` : '';

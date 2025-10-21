@@ -164,3 +164,39 @@ Los componentes son piezas de UI reutilizables que puedes incluir en cualquier p
     }
     ?>
     ```
+
+## 5. Uso de Gemini CLI en el Proyecto
+
+Gemini CLI es una herramienta de línea de comandos que utiliza inteligencia artificial para ayudarte a escribir, modificar y entender el código de este proyecto. Puedes usarlo para automatizar tareas, refactorizar, crear nuevos componentes y más.
+
+### Cómo Interactuar con Gemini
+
+Interactúas con Gemini directamente en tu terminal, dándole instrucciones en lenguaje natural.
+
+1.  **Inicia la herramienta:** Asegúrate de tener Gemini CLI instalado y activo en la raíz del proyecto.
+
+2.  **Realiza una petición:** Sé claro y específico en lo que necesitas. Puedes hacer referencia a archivos y carpetas usando el símbolo `@`.
+
+    **Ejemplo 1: Crear un nuevo componente**
+    ```
+    > gemini crea un nuevo componente en @views/components/backend/ llamado MiBoton.php que renderice un botón con un texto personalizable
+    ```
+
+    **Ejemplo 2: Refactorizar código JavaScript**
+    ```
+    > gemini refactoriza la función fetchMatches en @public/js/api.js para que maneje los errores con un bloque try/catch
+    ```
+
+    **Ejemplo 3: Añadir una nueva ruta**
+    ```
+    > gemini agrega una nueva ruta GET en @index.php llamada /perfil que renderice la vista Profile.php
+    ```
+
+3.  **Revisa y Aprueba los Cambios:**
+    Gemini no modificará tus archivos directamente. En su lugar, te propondrá una serie de "llamadas a herramientas" (tool calls), como `write_file` o `replace`. **Es tu responsabilidad revisar estas propuestas y aprobarlas** para que los cambios se apliquen. Esto te da control total sobre el código.
+
+### Buenas Prácticas
+
+-   **Sé específico:** Cuanto más detallada sea tu petición, mejor será el resultado. Incluye nombres de archivos, funciones y la lógica que esperas.
+-   **Empieza con tareas pequeñas:** Para familiarizarte, comienza con cambios pequeños y aislados.
+-   **Supervisa siempre:** Usa Gemini como un asistente. Revisa el código generado y asegúrate de que cumple con los estándares y la lógica del proyecto antes de aprobar.

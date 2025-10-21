@@ -26,8 +26,10 @@ export async function fetchMatches(searchTerm = '') {
         console.log("dataByBack: ", dataByBack);
         mockMatches = [
             ...dataByBack.map((item)=>{
+                const { status, ...rest } = item; // Remove status
                 return {
-                    ...item, 
+                    ...rest, 
+                    scheduled: item.scheduled, // Ensure this is the timestamp
                     tipo:"partido",
                     imageUrl: '/public/CanchaImage.png'
                 }

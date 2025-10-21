@@ -1,7 +1,7 @@
-import { createCardList } from './cardList.js';
-import { fetchMatches } from './api.js';
-import { sanitize } from './utils.js';
-import { createFilterBar } from './filterBar.js';
+import { CardList } from './CardList.js';
+import { fetchMatches } from '../api.js';
+import { sanitize } from '../utils.js';
+import { createFilterBar } from './FilterBar.js';
 
 /**
  * Creates and renders the search engine UI, including a search input and a "Join Match" button.
@@ -112,7 +112,7 @@ export function createSearchEngine(containerSelector) {
             }
         }
         
-        createCardList(filteredMatches, cardListContainerSelector);
+        CardList(filteredMatches, cardListContainerSelector);
     };
 
     /**

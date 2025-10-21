@@ -75,7 +75,13 @@ function Layout($content){
 
     <?php echo $content; ?>
 
-
+    <script src="/public/lib/preline.min.js"></script>
+    <script>
+      // Initialize components on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        HSStaticMethods.autoInit();
+      });
+    </script>
 </body>
 </html>
 

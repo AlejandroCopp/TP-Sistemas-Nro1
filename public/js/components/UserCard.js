@@ -3,7 +3,7 @@
  * @param {object} contenido - El objeto de datos para la tarjeta.
  * @returns {string} El HTML de la tarjeta.
  */
-export function createUserCard(contenido) {
+export function UserCard(contenido) {
   const { nombre = '', rol = '', id = '', email = '', estado, imagen, acciones = [] } = contenido;
 
   const estadoHtml = estado ? `<span class="${estado.color || 'text-gray-500'}">${estado.texto || ''}</span>` : '';

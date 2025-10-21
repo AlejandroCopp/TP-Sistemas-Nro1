@@ -1,6 +1,7 @@
-import { createUserCard } from './UserCard.js';
-import { createMatchCard } from './MatchCardComponent.js';
-import { createNotificationCard } from './NotificationCard.js';
+import { UserCard } from './UserCard.js';
+import { MatchCardComponent } from './MatchCardComponent.js';
+import { NotificationCard } from './NotificationCard.js';
+import { PlayerSlotCard } from './PlayerSlotCard.js';
 
 /**
  * Crea y devuelve una tarjeta HTML basada en el tipo de contenido proporcionado.
@@ -8,18 +9,21 @@ import { createNotificationCard } from './NotificationCard.js';
  * @param {object} contenido - El objeto de datos para la tarjeta.
  * @returns {HTMLElement} El elemento de la tarjeta.
  */
-export function cardFactory(contenido) {
+export function CardFactory(contenido) {
   let tarjetaHtml = '';
 
   switch (contenido.tipo) {
     case 'usuario':
-      tarjetaHtml = createUserCard(contenido);
+      tarjetaHtml = UserCard(contenido);
       break;
     case 'partido':
-      tarjetaHtml = createMatchCard(contenido);
+      tarjetaHtml = MatchCardComponent(contenido);
       break;
     case 'notificacion':
-      tarjetaHtml = createNotificationCard(contenido);
+      tarjetaHtml = NotificationCard(contenido);
+      break;
+    case 'playerSlot':
+      tarjetaHtml = PlayerSlotCard(contenido);
       break;
     default:
       console.error('Tipo de tarjeta no reconocido:', contenido.tipo);

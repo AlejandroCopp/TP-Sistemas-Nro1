@@ -1,4 +1,4 @@
-import { crearFormularioPartido } from './NewMatchForm.js';
+import { NewMatchForm } from './components/NewMatchForm.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const crearPartidoBtn = document.getElementById('crear-partido-btn');
@@ -7,18 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (crearPartidoBtn && searchEngineContainer && formContainer) {
         crearPartidoBtn.addEventListener('click', () => {
-            // Hide the search engine and show the form
+            // Hide the search engine and show the form container
             searchEngineContainer.style.display = 'none';
             formContainer.style.display = 'block';
 
-            // Create and show the form
-            const form = crearFormularioPartido(() => {
+            // Call NewMatchForm to render the form inside the container
+            NewMatchForm('#form-container', () => {
                 // Callback to show the search engine again
                 searchEngineContainer.style.display = 'block';
                 formContainer.style.display = 'none';
                 formContainer.innerHTML = ''; // Clear the form
             });
-            formContainer.appendChild(form);
         });
     }
 });
