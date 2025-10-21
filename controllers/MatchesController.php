@@ -10,14 +10,14 @@ require_once 'lib/Logger.php';
 class MatchesController {
     private $userModel;
     private $matchModel;
-    private $matchPlayerModel;
+    private $MatchPlayerModel;
     private $logger;
 
     public function __construct() {
         $database = new Database();
         $this->userModel = new UserModel($database->getConnection());
         $this->matchModel = new MatchModel($database->getConnection());
-        $this->matchPlayerModel = new MatchPlayerModel($database->getConnection());
+        $this->MatchPlayerModel = new MatchPlayerModel($database->getConnection());
     }
 
     public function getMatches() {
@@ -26,6 +26,7 @@ class MatchesController {
         
         foreach ($matches as $match) {
             $actualPlayers = $this->MatchPlayerModel->countActivePlayersByMatchId($match['id']);
+
 
             $scheduledTimestamp = strtotime($match['datetime_scheduled']);
             $now = time();
@@ -43,8 +44,8 @@ class MatchesController {
                 'location' => $match['location'],
                 'scheduled' => strtotime($match['datetime_scheduled']),
                 'status' => $status,
-                'maxPlayers ' => $match['max_players'],
-                'actualPlayers ' => $actualPlayers
+                'maxPlayers' => $match['max_players'],
+                'actualPlayers' => $actualPlayers
             ];
         } // nombre, posicion, equipo
 
@@ -111,7 +112,7 @@ class MatchesController {
         }
 
         // Fetch player IDs for the match
-        $player_id_rows = $this->matchPlayerModel->getAllActivePlayersByMatchId($match_id);
+        $player_id_rows = $this->MatchPlayerModel->getAllActivePlayersByMatchId($match_id);
         
         // Fetch full details for each player
         $players = [];

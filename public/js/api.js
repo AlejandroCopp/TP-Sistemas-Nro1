@@ -21,74 +21,83 @@ export async function fetchMatches(searchTerm = '') {
     // Mock data
     let mockMatches = []
     try {
-        // mockMatches = (await fetch("/api/matches")).json();
+        let dataByBack = await (await fetch("/api/matches")).json();
+
+        console.log("dataByBack: ", dataByBack);
         mockMatches = [
-            {
-                tipo: 'partido',
-                id: 1,
-                matchType: 'Equipo A vs Equipo B',
-                location: 'callecanchita 123, palermo', 
-                maxPlayers: 10, // set from frontend
-                actualPlayers: 8, // set from frontend
-                dateTime: '2025-10-20 18:00:00',
-                status: 'Jugando',
-                imageUrl: '/public/CanchaImage.png'
-            },
-            {
-                id: 2,
-                tipo: 'partido',
-                location: 'Av. Libertador 456, nuñez',
-                maxPlayers: 10,
-                actualPlayers: 4,
-                matchType: 'Mixto tranqui',
-                dateTime: '2025-10-20 19:30:00',
-                status: 'Abierto',
-                imageUrl: '/public/CanchaImage.png'
-            },
-            {
-                id: 3,
-                tipo: 'partido',
-                location: 'Club Femenino, caballito',
-                maxPlayers: 10,
-                actualPlayers: 9,
-                matchType: 'Fútbol 5 Femenino',
-                dateTime: '2025-10-21 20:00:00',
-                status: 'Abierto',
-                imageUrl: '/public/CanchaImage.png'
-            },
-            {
-                id: 4,
-                tipo: 'partido',
-                location: 'Cancha Central, Belgrano',
-                maxPlayers: 11,
-                actualPlayers: 10,
-                matchType: 'Alquiler de Cancha',
-                dateTime: '2025-10-20 21:00:00',
-                status: 'Completo',
-                imageUrl: '/public/CanchaImage.png'
-            },
-            {
-                id: 5,
-                tipo: 'partido',
-                location: 'Cancha Municipal',
-                maxPlayers: 10,
-                actualPlayers: 8,
-                matchType: 'Partido de Tarde',
-                dateTime: '2025-10-20 18:00:00',
-                status: 'Jugando',
-                imageUrl: '/public/CanchaImage.png'
-            },
-            {
-                id: 6,
-                tipo: 'partido',
-                location: 'Club San Martín',
-                maxPlayers: 10,
-                actualPlayers: 4,
-                matchType: 'Busca Jugadores',
-                dateTime: '2025-10-21 19:00:00',
-                status: 'Buscando jugadores',
-                imageUrl: '/public/CanchaImage.png'
-            }
+            ...dataByBack.map((item)=>{
+                return {
+                    ...item, 
+                    tipo:"partido",
+                    imageUrl: '/public/CanchaImage.png'
+                }
+            }),
+            // {
+            //     tipo: 'partido', // set by frontend
+            //     id: 1,
+            //     matchType: 'Equipo A vs Equipo B',
+            //     location: 'callecanchita 123, palermo', 
+            //     maxPlayers: 10, 
+            //     actualPlayers: 8, 
+            //     dateTime: 1697827200000,
+            //     status: 'Jugando',
+            //     imageUrl: '/public/CanchaImage.png' // seted by front
+            // },
+            // {
+            //     id: 2,
+            //     tipo: 'partido',
+            //     location: 'Av. Libertador 456, nuñez',
+            //     maxPlayers: 10,
+            //     actualPlayers: 4,
+            //     matchType: 'Mixto tranqui',
+            //     dateTime: '2025-10-20 19:30:00',
+            //     status: 'Abierto',
+            //     imageUrl: '/public/CanchaImage.png'
+            // },
+            // {
+            //     id: 3,
+            //     tipo: 'partido',
+            //     location: 'Club Femenino, caballito',
+            //     maxPlayers: 10,
+            //     actualPlayers: 9,
+            //     matchType: 'Fútbol 5 Femenino',
+            //     dateTime: '2025-10-21 20:00:00',
+            //     status: 'Abierto',
+            //     imageUrl: '/public/CanchaImage.png'
+            // },
+            // {
+            //     id: 4,
+            //     tipo: 'partido',
+            //     location: 'Cancha Central, Belgrano',
+            //     maxPlayers: 11,
+            //     actualPlayers: 10,
+            //     matchType: 'Alquiler de Cancha',
+            //     dateTime: '2025-10-20 21:00:00',
+            //     status: 'Completo',
+            //     imageUrl: '/public/CanchaImage.png'
+            // },
+            // {
+            //     id: 5,
+            //     tipo: 'partido',
+            //     location: 'Cancha Municipal',
+            //     maxPlayers: 10,
+            //     actualPlayers: 8,
+            //     matchType: 'Partido de Tarde',
+            //     dateTime: '2025-10-20 18:00:00',
+            //     status: 'Jugando',
+            //     imageUrl: '/public/CanchaImage.png'
+            // },
+            // {
+            //     id: 6,
+            //     tipo: 'partido',
+            //     location: 'Club San Martín',
+            //     maxPlayers: 10,
+            //     actualPlayers: 4,
+            //     matchType: 'Busca Jugadores',
+            //     dateTime: '2025-10-21 19:00:00',
+            //     status: 'Buscando jugadores',
+            //     imageUrl: '/public/CanchaImage.png'
+            // }
         ];
     } catch (error) {
         console.log(error.message)

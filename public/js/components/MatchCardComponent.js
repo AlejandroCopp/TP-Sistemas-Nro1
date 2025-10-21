@@ -34,7 +34,9 @@ export function createMatchCard(itemData) {
                         </div>
                         <div class="flex items-center gap-x-4 text-sm text-gray-600 dark:text-neutral-400 mt-2">
                             <span class="font-medium"></span>
-                            <span class="font-medium">${sanitize(itemData.dateTime)}</span>
+                            <span class="font-medium">${ sanitize(
+                                new Date(itemData.scheduled*1000).toLocaleString()
+                            )}</span>
                             <span class="px-2 py-1 text-xs font-bold rounded-md ${statusBgColor} ${statusTextColor}">
                                 ${sanitize(itemData.status)}
                             </span>
