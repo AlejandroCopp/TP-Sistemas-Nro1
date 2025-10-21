@@ -24,9 +24,19 @@ class MatchModel {
     public function getMatchById($id) {
         $sql = "SELECT * FROM matches WHERE id = :id";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $match = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($match) {
+            if (!empty($match['image'])) {
+                $match['image_url'] = 'data:image/png;base64,' . base64_encode($match['image']);
+            } else {
+                $match['image_url'] = '/public/CanchaImage.png';
+            }
+        }
+    
+        return $match;
     }
 
     public function createMatch($name, $location, $datetimeScheduled, $manager_id, $max_players, $image = null){
