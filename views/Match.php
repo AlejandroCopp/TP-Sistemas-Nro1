@@ -3,9 +3,11 @@ require_once 'models/UserModel.php';
 require_once 'db/Database.php';
 
 function MatchPage($data) {
+
     $database = new Database();
     $userModel = new UserModel($database->getConnection());
     $match = $data['match'];
+    var_dump($match);
     $team_a_players = $data['team_a'];
     $team_b_players = $data['team_b'];
     $team_size = $match['max_players'] / 2;
@@ -18,7 +20,7 @@ function MatchPage($data) {
         'id' => $match['id'],
         'team_name1' => $match['team_name1'],
         'team_name2' => $match['team_name2'],
-        'matchType' => $match['name'],
+        'matchType' => $match['team_name1']." vs ".$match['team_name2'],
         'location' => $match['location'],
         'scheduled' => $timestamp, // Pass the raw timestamp
         'maxPlayers' => $match['max_players'],
@@ -69,7 +71,7 @@ function MatchPage($data) {
 
     <!-- Teams -->
     <div class="p-4">
-        <h2 class="text-center text-xl font-bold mb-4 text-gray-800 dark:text-neutral-200"><?php echo htmlspecialchars($match['name']); ?></h2>
+        <h2 class="text-center text-xl font-bold mb-4 text-gray-800 dark:text-neutral-200"><?php echo htmlspecialchars($match['team_name1']." vs ".$match['team_name2']); ?></h2>
         <div class="grid grid-cols-2 gap-4">
             
             <!-- Team A -->

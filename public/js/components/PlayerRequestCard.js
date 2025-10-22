@@ -3,9 +3,7 @@ import { PlayerSlotCard } from './PlayerSlotCard.js';
 export function PlayerRequestCard(player, matchType) {
     const { id: playerId, name, position, team } = player;
 
-    let teamName = `Equipo ${team}`;
-    const regex = /^(.*) vs (.*)$/;
-    const match = matchType.match(regex);
+    
 
     if (match && match[1] && match[2]) {
         if (team === 1) {
