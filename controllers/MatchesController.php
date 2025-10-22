@@ -41,9 +41,9 @@ class MatchesController {
 
             $response[] = [
                 'id' => $match['id'],
-                'matchType' => $match['name'], 
+                'matchType' => $match['team_name1'] . ' vs ' . $match['team_name2'], 
                 'location' => $match['location'],
-                'scheduled' => $match['datetime_scheduled'],
+                'scheduled' => $scheduledTimestamp,
                 'status' => $status,
                 'maxPlayers' => $match['max_players'],
                 'actualPlayers' => $actualPlayers
