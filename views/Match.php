@@ -3,24 +3,22 @@ require_once 'models/UserModel.php';
 require_once 'db/Database.php';
 
 function MatchPage($data) {
-
     $database = new Database();
     $userModel = new UserModel($database->getConnection());
     $match = $data['match'];
-    var_dump($match);
     $team_a_players = $data['team_a'];
     $team_b_players = $data['team_b'];
     $team_size = $match['max_players'] / 2;
     
     // Prepare match data for JS
     $timestamp = is_numeric($match['datetime_scheduled']) ? $match['datetime_scheduled'] : strtotime($match['datetime_scheduled']);
-    $user_id = $userModel->getUserByEmail($_SESSION["email"],"id");
+    $user_id = $userModel->getUserByEmail($_SESSION["email"], "id");
     
     $match_for_js = [
         'id' => $match['id'],
         'team_name1' => $match['team_name1'],
         'team_name2' => $match['team_name2'],
-        'matchType' => $match['team_name1']." vs ".$match['team_name2'],
+        'matchType' => $match['team_name1'] . ' vs ' . $match['team_name2'],
         'location' => $match['location'],
         'scheduled' => $timestamp, // Pass the raw timestamp
         'maxPlayers' => $match['max_players'],
@@ -31,7 +29,7 @@ function MatchPage($data) {
     // Prepare team A data for JS
     $team_a_for_js = [];
     foreach ($team_a_players as $player) {
-        $team_a_for_js[] = ['tipo' => 'playerSlot', 'nombre' => $player['name']];
+        $team_a_for_js[] = ['tipo' => 'playerSlot', 'nombre' => $player['name'], 'position' => $player['position']];
     }
     for ($i = count($team_a_players); $i < $team_size; $i++) {
         $team_a_for_js[] = ['tipo' => 'playerSlot']; // Empty slot
@@ -71,7 +69,9 @@ function MatchPage($data) {
 
     <!-- Teams -->
     <div class="p-4">
-        <h2 class="text-center text-xl font-bold mb-4 text-gray-800 dark:text-neutral-200"><?php echo htmlspecialchars($match['team_name1']." vs ".$match['team_name2']); ?></h2>
+        <h4 class="text-center text-xl font-bold mb-4 text-gray-800 dark:text-neutral-200">
+            <?php echo htmlspecialchars($match['team_name1'] . ' vs ' . $match['team_name2']); ?>
+        </h4>
         <div class="grid grid-cols-2 gap-4">
             
             <!-- Team A -->

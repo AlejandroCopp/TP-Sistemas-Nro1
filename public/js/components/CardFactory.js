@@ -27,8 +27,7 @@ export function CardFactory(contenido) {
       tarjetaHtml = PlayerSlotCard(contenido);
       break;
     case 'playerRequest':
-        
-        tarjetaHtml = PlayerRequestCard(contenido);
+      tarjetaHtml = PlayerRequestCard(contenido);
       break;
     default:
       console.error('Tipo de tarjeta no reconocido:', contenido.tipo);
