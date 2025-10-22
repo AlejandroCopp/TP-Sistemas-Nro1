@@ -58,21 +58,34 @@ export function NewMatchForm(containerSelector, onVolver) {
             feedbackDiv.textContent = '';
             feedbackDiv.className = 'hidden';
 
-            const formData = new FormData(form);
-            
-            const dateTimeValue = formData.get('datetimeScheduled');
-            if (!dateTimeValue) {
+            const teamName1 = form.elements.team_name1.value;
+            const teamName2 = form.elements.team_name2.value;
+            const location = form.elements.location.value;
+            const datetimeScheduled = form.elements.datetimeScheduled.value;
+            const maxPlayers = form.elements.maxPlayers.value;
+
+            if (!datetimeScheduled) {
                 feedbackDiv.textContent = 'Por favor, selecciona una fecha y hora.';
                 feedbackDiv.className = 'p-2 my-2 text-sm text-white bg-red-500 rounded-lg';
                 return;
             }
-            const timestamp = Math.floor(new Date(dateTimeValue).getTime() / 1000);
-            formData.set('datetimeScheduled', timestamp);
+
+            const data = {
+                name: `${teamName1} vs ${teamName2}`,
+                team1Name: teamName1,
+                team2Name: teamName2,
+                location: location,
+                datetimeScheduled: Math.floor(new Date(datetimeScheduled).getTime() / 1000),
+                maxPlayers: maxPlayers
+            };
 
             try {
                 const response = await fetch('/api/match', {
                     method: 'POST',
-                    body: new URLSearchParams(formData)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
                 });
 
                 if (!response.ok) {
