@@ -125,6 +125,9 @@ class MatchesController {
         $players = [];
         foreach ($player_id_rows as $row) {
             $player_info = $this->userModel->getUserById($row['id']);
+            
+
+            $player_info['position'] = '';
             if ($player_info) {
                 $players[] = $player_info;
             }
